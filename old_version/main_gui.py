@@ -20,7 +20,7 @@ class splalsh_screen:
     start_root=Tk()
     start_root.config(bg="black")
     start_root.title("DetectioRad")
-    Logo=Image.open(r"C:\Users\yovis\Documents\FIles_projects\Internships\Pivotal_Teleradiology\Covid-model\DetectioRad\LOGO_v1.png")
+    Logo=Image.open(r"LOGO_v1.png")
     w_x=Logo.size[0]
     w_y=Logo.size[1]
     start_root.minsize(w_x,w_y)
