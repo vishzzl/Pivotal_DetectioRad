@@ -28,6 +28,7 @@ conn.commit()
 
 global form_page
 
+
 def openfilename():
     global filename
 
@@ -68,13 +69,9 @@ def convertToBinaryData(filename):
 def back_command3():
     form_screen.destroy()
     main.main_account_screen()
-
 def back_command4():
-    try:
-        #new_patients_screen.destroy()
-        form_page()
-    except:
-        pass
+    form_page()
+
 
 def update_form():
 

@@ -16,18 +16,17 @@ conn = sqlite3.connect("_pivotal.db")
 
 s1=conn.cursor()
 
-"""s1.execute(CREATE TABLE doctor_records(
+s1.execute('''CREATE TABLE IF NOT  EXISTS   doctor_records(
                 reg_id text(255) NOT NULL,
                 name  text NOT NULL,
                 age  string NOT NULL,
                 phone_no integer(10) NOT NULL,
                 password text NOT NULL,
                 PRIMARY KEY(reg_id)
-                ))
+                )''')
 
 
-conn.commit()"""
-
+conn.commit()
 
 def register():
    
@@ -249,7 +248,7 @@ def register():
     phone_entry.configure(selectforeground="white")
     phone_entry.configure(textvariable=phone)
   
-    pass_entry = Entry(Canvas1)
+    pass_entry = Entry(Canvas1, show="*")
     pass_entry.place(relx=0.403, rely=0.609,height=34, relwidth=0.432)
     pass_entry.configure(background="#ffffff")
     pass_entry.configure(borderwidth="5")
@@ -264,7 +263,7 @@ def register():
     pass_entry.configure(selectforeground="white")
     pass_entry.configure(textvariable=password)
   
-    comf_pass_entry = Entry(Canvas1)
+    comf_pass_entry = Entry(Canvas1,show="*")
     comf_pass_entry.place(relx=0.403, rely=0.714, height=34 ,relwidth=0.432)
     comf_pass_entry.configure(background="#ffffff")
     comf_pass_entry.configure(borderwidth="5")
@@ -708,7 +707,7 @@ def main_account_screen():
     Entry1.configure(selectbackground="blue")
     Entry1.configure(selectforeground="white")
 
-    Entry1_5 = Entry(canvas1)
+    Entry1_5 = Entry(canvas1, show="*")
     Entry1_5.place(relx=0.39, rely=0.391,height=34, relwidth=0.343)
     Entry1_5.configure(background="#ffffff")
     Entry1_5.configure(borderwidth="2")
