@@ -336,19 +336,19 @@ def register_user():
                             conn.commit()
                             Label(register_screen, text="register successfull").pack()
                         except sqlite3.IntegrityError as err:
-                             messagebox.showinfo("Enter another registration number")
+                             messagebox.showerror("Enter another registration number")
                     
                         
                     else:
-                         messagebox.showinfo("Password does not match")
+                         messagebox.showerror("Password does not match")
                 else:
-                     messagebox.showinfo("PLEASE! Enter correct phone number")
+                     messagebox.showerror("PLEASE! Enter correct phone number")
             else:
-                messagebox.showinfo("PLEASE! Enter Age")
+                messagebox.showerror("PLEASE! Enter Age")
         else:
-            messagebox.showinfo("PLEASE! Enter Name")
+            messagebox.showerror("PLEASE! Enter Name")
     else:
-        messagebox.showinfo("PLEASE! Enter correct registration number")
+        messagebox.showerror("PLEASE! Enter correct registration number")
 
 def login_verify():
     username1 = username_verify.get()
@@ -365,7 +365,7 @@ def login_verify():
         s1.execute(sql)
         check_pass=s1.fetchone()
     except sqlite3.Error as err:
-        messagebox.showinfo("something went wrong")
+        messagebox.showerror("something went wrong")
     
     if check_pass[0] != 0: 
         if check_pass[1] == password1:
@@ -381,9 +381,9 @@ def login_verify():
             
             
         else:
-            messagebox.showinfo("Incorrect Password ")
+            messagebox.showerror("Incorrect Password ")
     else:
-        messagebox.showinfo("REGISTRATION NUMBER DOES NOT EXISTS")
+        messagebox.showerror("REGISTRATION NUMBER DOES NOT EXISTS")
 
 def forgot_pass():
     top.destroy()
@@ -582,7 +582,7 @@ def update_pass():
         count=s1.fetchone()
         print(count)
     except sqlite3.Error as err:
-        messagebox.showinfo("something went wrong")
+        messagebox.showerror("something went wrong")
 
     
     if old_id != "" and count[0] > 0:
@@ -595,11 +595,11 @@ def update_pass():
                 
                 
             except sqlite3.Error as err:
-                messagebox.showinfo("something went wrong")
+                messagebox.showerror("something went wrong")
         else:
-            messagebox.showinfo("enter correct password")
+            messagebox.showerror("enter correct password")
     else:
-        messagebox.showinfo("enter correct registration number")
+        messagebox.showerror("enter correct registration number")
 
 def back_command():
    

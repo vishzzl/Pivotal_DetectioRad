@@ -7,6 +7,7 @@ from tkinter import ttk
 from PIL import ImageTk , Image
 from tkinter import filedialog
 import p_main
+import mlf
 
 
 
@@ -16,7 +17,7 @@ conn = sqlite3.connect("patients_pivotal_record.db")
 
 s1=conn.cursor()
 
-s1.execute('''CREATE TABLE IF NOT EXISTS patients_records(
+s1.execute('''CREATE TABLE IF NOT EXISTS patients_records_pivotal(
                 patient_id text(255)  NOT NULL,
                 patient_name text(255) NOT NULL,
                 patient_age integer NOT NULL,
@@ -24,6 +25,7 @@ s1.execute('''CREATE TABLE IF NOT EXISTS patients_records(
                 patient_history text,
                 old_xray blob,
                 new_xray blob,
+                feedback text,
                 PRIMARY KEY(patient_id)
                 )''')
 
@@ -47,10 +49,11 @@ def openfilename():
         
         #Logo_in=ImageTk.PhotoImage(Logo)
     except:
-        messagebox.showinfo("please upload image format .jpg or .png")
+        messagebox.showwarning("please upload image format .jpg or .png")
         
 def convertToBinaryData(filename):
     #Convert digital data to binary format
+    
     with open(filename, 'rb') as file:
         blobData = file.read()
     return blobData
@@ -84,12 +87,12 @@ def update_form():
                 if p_gender != "":
                     try:
                     
-                        s1.execute(""" INSERT INTO patients_records
+                        s1.execute(""" INSERT INTO patients_records_pivotal
                                     (patient_id,patient_name,patient_age, patient_gender,patient_history,old_xray) VALUES (?, ?, ?,?,?,?)""",(p_id,p_name,p_age,p_gender,p_histoty,empPhoto))
                         
                         conn.commit()
                         messagebox.showinfo("Image and file inserted successfully as a BLOB into a table")
-                        conn.close()
+                        
 
                     
 
@@ -369,12 +372,153 @@ def new_patients():
     Button2.configure(relief="flat")
     Button2.configure(text='''Back''')
 
+def view_record():
+    
+    form_screen.destroy()
+    
+    global viewlog
+    viewlog = Tk()
+
+    viewlog.geometry("1208x681+180+100")
+    #form_screen.minsize(w_x,w_y)
+    #register_screen.maxsize(1924, 1055)
+    viewlog.resizable(0,0)
+    viewlog.title("Register")
+    viewlog.configure(background="#002448")
+
+    global get_reg
+    global get_ename
+    
+    
+
+    get_reg= StringVar()
+    get_ename=StringVar()
+    
+    
+
+    '''This class configures and populates the toplevel window.
+     top is the toplevel containing window.'''
+    _bgcolor = '#c0c0c0'  # X11 color: 'gray85'
+    _fgcolor = '#000000'  # X11 color: 'black'
+    _compcolor = '#c0c0c0' # X11 color: 'gray85'
+    _ana1color = '#c0c0c0' # X11 color: 'gray85'
+    _ana2color = '#ececec' # Closest X11 color: 'gray92'
+    font11 = "-family {Segoe UI Emoji} -size 11 -weight bold"
+    font12 = "-family {Sitka Heading} -size 13 -weight bold"
+    font9 = "-family {Segoe UI Black} -size 14 -weight bold"
+   
+    
+   
+    Canvas1 = Canvas(viewlog)
+    Canvas1.place(relx=0.072, rely=0.051, relheight=0.804 , relwidth=0.847)
+    Canvas1.configure(background="#c0c0c0")
+    Canvas1.configure(borderwidth="2")
+    Canvas1.configure(highlightbackground="#c0c0c0")
+    Canvas1.configure(highlightcolor="#646464646464")
+    Canvas1.configure(insertbackground="black")
+    Canvas1.configure(relief="raised")
+    Canvas1.configure(selectbackground="#c0c0c0")
+    Canvas1.configure(selectforeground="white")
+   
+    Label1 = Label(Canvas1)
+    Label1.place(relx=0.122, rely=0.063, height=36, width=750)
+    Label1.configure(activebackground="#000071")
+    Label1.configure(activeforeground="white")
+    Label1.configure(activeforeground="#f0f0f0f0f0f0")
+    Label1.configure(background="#ababab")
+    Label1.configure(borderwidth="5")
+    Label1.configure(compound='center')
+    Label1.configure(disabledforeground="#000040")
+    Label1.configure(font=font9)
+    Label1.configure(foreground="#000040")
+    Label1.configure(highlightbackground="#c0c0c0")
+    Label1.configure(highlightcolor="#c0c0c0")
+    Label1.configure(text='''Fill Customer Details''')
+
+    registration = Label(Canvas1)
+    registration.place(relx=0.209, rely=0.24, height=37, width=162)    
+    registration.configure(background="#c0c0c0")
+    registration.configure(disabledforeground="#a3a3a3")
+    registration.configure(font=font9)
+    registration.configure(foreground="#000000")
+    registration.configure(text='''registration no.''')
+   
+    Entry1 = Entry(Canvas1)
+    Entry1.place(relx=0.428, rely=0.24,height=34, relwidth=0.317)
+    Entry1.configure(background="white")
+    Entry1.configure(disabledforeground="#a3a3a3")
+    Entry1.configure(font="TkFixedFont")
+    Entry1.configure(foreground="#000000")
+    Entry1.configure(insertbackground="black")
+    Entry1.configure(textvariable=get_reg)
+   
+    name_box = Label(Canvas1)
+    name_box.place(relx=0.209, rely=0.412, height=36, width=162)
+    name_box.configure(background="#c0c0c0")
+    name_box.configure(disabledforeground="#a3a3a3")
+    name_box.configure(font=font9)
+    name_box.configure(foreground="#000000")
+    name_box.configure(text='''Name''')
+    
+    
+    name_ebox = Entry(Canvas1)
+    name_ebox.place(relx=0.428, rely=0.412,height=34, relwidth=0.317)
+    name_ebox.configure(background="white")
+    name_ebox.configure(disabledforeground="#a3a3a3")
+    name_ebox.configure(font="TkFixedFont")
+    name_ebox.configure(foreground="#000000")
+    name_ebox.configure(highlightbackground="#d9d9d9")
+    name_ebox.configure(highlightcolor="black")
+    name_ebox.configure(insertbackground="black")
+    name_ebox.configure(selectbackground="blue")
+    name_ebox.configure(selectforeground="white")
+    name_ebox.configure(textvariable=get_ename)
+  
+    Button1 = Button(Canvas1,command=mlf.start_ml)
+    Button1.place(relx=0.371, rely=0.635, height=33, width=206)
+    Button1.configure(activebackground="#ececec")
+    Button1.configure(activeforeground="#000000")
+    Button1.configure(background="#092748")
+    Button1.configure(borderwidth="5")
+    Button1.configure(disabledforeground="#a3a3a3")
+    Button1.configure(font="-family {Segoe UI Black} -size 14 -weight bold -slant roman -underline 0 -overstrike 0")
+    Button1.configure(foreground="#ffffff")
+    Button1.configure(highlightbackground="#c0c0c0")
+    Button1.configure(highlightcolor="black")
+    Button1.configure(overrelief="raised")
+    Button1.configure(padx="5")
+    Button1.configure(pady="5")
+    Button1.configure(text='submit')
+
+    
+    Button2 = Button(viewlog)
+    Button2.place(relx=0.0, rely=0.0, height=33, width=66)
+    Button2.configure(activebackground="#ececec")
+    Button2.configure(activeforeground="#000000")
+    Button2.configure(background="#c0c0c0")
+    Button2.configure(command=back_command4)
+    Button2.configure(disabledforeground="#a3a3a3")
+    Button2.configure(foreground="#000000")
+    Button2.configure(highlightbackground="#d9d9d9")
+    Button2.configure(highlightcolor="black")
+    Button2.configure(pady="0")
+    Button2.configure(relief="flat")
+    Button2.configure(text='''Back''')
+
+    viewlog.mainloop()
+
 def form_page():
     try:
-    
         p_main.top.destroy()
+        
+        
     except:
-        new_patients_screen.destroy()
+        try:
+            new_patients_screen.destroy()
+        except:
+            viewlog.destroy()
+
+        
     
     
     global form_screen
@@ -461,7 +605,7 @@ def form_page():
     o_patients_1.configure(activeforeground="#000000")
     o_patients_1.configure(background="#092748")
     o_patients_1.configure(borderwidth="5")
-    #o_patients_1.configure(command=view_record)
+    o_patients_1.configure(command=view_record)
     o_patients_1.configure(disabledforeground="#a3a3a3")
     o_patients_1.configure(font="-family {Segoe UI Black} -size 14 -weight bold -slant roman -underline 0 -overstrike 0")
     o_patients_1.configure(foreground="#ffffff")
@@ -504,5 +648,6 @@ def form_page():
   
 
     form_screen.mainloop()
+
 
 
