@@ -155,8 +155,11 @@ def start_ml():
 	global second_frame
 	global get_regi 
 	
+	
 	get_regi= pivotal_form.get_reg.get()
 	get_enamei=pivotal_form.get_ename.get()
+
+	
 	
 	
 	
@@ -170,6 +173,14 @@ def start_ml():
 			gender=row[3]
 			history=row[4]
 			feed=row[7]
+			if feed == None:
+				feed="fill your feedback"
+				
+				
+		
+				
+
+			
 
 		#print(record)
 	except sqlite3.Error as err:
