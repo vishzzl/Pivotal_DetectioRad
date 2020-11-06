@@ -1,5 +1,6 @@
 import sqlite3
 import os
+from tkinter import messagebox
 
 
 
@@ -22,6 +23,7 @@ def loadBLOB(patient_id):
     try:
         s1.execute("UPDATE patients_records_pivotal SET new_xray=? WHERE patient_id='"+patient+"'",([detected]))
         conn.commit()
+        messagebox.showinfo("SUCCESSFULL","data stored successfully")
         print("done")
         delete_img()
 

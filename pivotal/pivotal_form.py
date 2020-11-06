@@ -49,7 +49,7 @@ def openfilename():
         
         #Logo_in=ImageTk.PhotoImage(Logo)
     except:
-        messagebox.showwarning("please upload image format .jpg or .png")
+        messagebox.showerror("ERROR","please upload image format .jpg or .png")
         
 def convertToBinaryData(filename):
     #Convert digital data to binary format
@@ -57,7 +57,8 @@ def convertToBinaryData(filename):
     with open(filename, 'rb') as file:
         blobData = file.read()
     return blobData
-   
+    
+        
     
    
     #Logo_label=Label(start_root,image=Logo_in,padx=100,pady=100)
@@ -73,40 +74,66 @@ def back_command4():
 
 def update_form():
 
+    global p_id
+
+    
+
     
     p_name=c_name_entry.get()
     p_age=c_age_entry.get()
     p_id=c_id_entry.get()
     p_gender=c_gender_entry.get()
     p_histoty= history_Entry.get("1.0","end")
-    empPhoto = convertToBinaryData(filename)
+    try:
+        empPhoto = convertToBinaryData(filename)
+    except:
+        empPhoto=""
+
+    
+
+    
 
     if p_id != "":
         if p_name != "" and p_name.isdigit() == False:
             if p_age != "" and p_age.isdigit() == True:
                 if p_gender != "":
-                    try:
+                    if empPhoto != "":
+                        try:
                     
-                        s1.execute(""" INSERT INTO patients_records_pivotal
+                            s1.execute(""" INSERT INTO patients_records_pivotal
                                     (patient_id,patient_name,patient_age, patient_gender,patient_history,old_xray) VALUES (?, ?, ?,?,?,?)""",(p_id,p_name,p_age,p_gender,p_histoty,empPhoto))
                         
-                        conn.commit()
-                        messagebox.showinfo("Image and file inserted successfully as a BLOB into a table")
+                        
+                            conn.commit()
+                            messagebox.showinfo("SUCCESSFULL","Data successfully stored")
+                            
+                            nameEntry.delete(0,END)
+                            genderEntry.delete(0,END)
+                            idEntry.delete(0,END)
+                            ageEntry.delete(0,END)
+                            history_Entry.delete("1.0","end")
+                            Label21['text']= "Not Uploaded"
+
+
+                        
+                        
+                            mlf.start_ml()
                         
 
                     
 
-                    except sqlite3.Error as error:
-                        print("Failed to insert blob data into sqlite table", error)
-
+                        except sqlite3.Error as error:
+                            messagebox.showerror("Failed", error)
+                    else:
+                        messagebox.showerror("ERROR","Please update your xray")
                 else:
-                    messagebox.showwarning("enter gender")
+                    messagebox.showerror("ERROR","Please enter gender")
             else:
-                messagebox.showwarning("enter age")
+                messagebox.showerror("ERROR","Please enter age")
         else:
-            messagebox.showwarning("enter name")
+            messagebox.showerror("ERROR","Please enter name")
     else:
-        messagebox.showwarning("enter id")
+        messagebox.showerror("ERROR","Please enter id")
    
 def new_patients():
 
@@ -125,13 +152,13 @@ def new_patients():
     global c_age_entry
     global c_id_entry
     global c_gender_entry
-    global history_entry
     global history_Entry
-    global nameEntry
+    global history_entry
     global nameEntry
     global genderEntry
     global idEntry
     global Label21
+    global ageEntry
     
 
     c_name_entry=StringVar()
@@ -388,6 +415,8 @@ def view_record():
 
     global get_reg
     global get_ename
+    global name_ebox
+    global Entry1_reg
     
     
 
@@ -443,14 +472,14 @@ def view_record():
     registration.configure(foreground="#000000")
     registration.configure(text='''registration no.''')
    
-    Entry1 = Entry(Canvas1)
-    Entry1.place(relx=0.428, rely=0.24,height=34, relwidth=0.317)
-    Entry1.configure(background="white")
-    Entry1.configure(disabledforeground="#a3a3a3")
-    Entry1.configure(font="TkFixedFont")
-    Entry1.configure(foreground="#000000")
-    Entry1.configure(insertbackground="black")
-    Entry1.configure(textvariable=get_reg)
+    Entry1_reg = Entry(Canvas1)
+    Entry1_reg.place(relx=0.428, rely=0.24,height=34, relwidth=0.317)
+    Entry1_reg.configure(background="white")
+    Entry1_reg.configure(disabledforeground="#a3a3a3")
+    Entry1_reg.configure(font="TkFixedFont")
+    Entry1_reg.configure(foreground="#000000")
+    Entry1_reg.configure(insertbackground="black")
+    Entry1_reg.configure(textvariable=get_reg)
    
     name_box = Label(Canvas1)
     name_box.place(relx=0.209, rely=0.412, height=36, width=162)

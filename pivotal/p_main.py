@@ -334,21 +334,30 @@ def register_user():
                         try:
                             s1.execute("""INSERT INTO doctor_records(reg_id , name , age, phone_no , password ) VALUES( ?,?,?,?,?)""",(RegistrationId,Name,Age,Phone,Password))
                             conn.commit()
-                            Label(register_screen, text="register successfull").pack()
+                            messagebox.showinfo("SUCCESSFULL","registrtion done!")
+                            reg_id.delete(0,END)
+                            name_entry.delete(0,END)
+                            age_entry.delete(0,END)
+                            phone_entry.delete(0,END)
+                            pass_entry.delete(0,END)
+                            comf_pass_entry.delete(0,END)
+                            
+
+
                         except sqlite3.IntegrityError as err:
-                             messagebox.showerror("Enter another registration number")
+                             messagebox.showerror("ERROR","Enter another registration number")
                     
                         
                     else:
-                         messagebox.showerror("Password does not match")
+                         messagebox.showerror("ERROR","Password does not match")
                 else:
-                     messagebox.showerror("PLEASE! Enter correct phone number")
+                     messagebox.showerror("ERROR","PLEASE! Enter correct phone number")
             else:
-                messagebox.showerror("PLEASE! Enter Age")
+                messagebox.showerror("ERROR","PLEASE! Enter Age")
         else:
-            messagebox.showerror("PLEASE! Enter Name")
+            messagebox.showerror("ERROR","PLEASE! Enter Name")
     else:
-        messagebox.showerror("PLEASE! Enter correct registration number")
+        messagebox.showerror("ERROR","PLEASE! Enter correct registration number")
 
 def login_verify():
     username1 = username_verify.get()
@@ -365,7 +374,7 @@ def login_verify():
         s1.execute(sql)
         check_pass=s1.fetchone()
     except sqlite3.Error as err:
-        messagebox.showerror("something went wrong")
+        messagebox.showerror("ERROR","something went wrong")
     
     if check_pass[0] != 0: 
         if check_pass[1] == password1:
@@ -381,9 +390,9 @@ def login_verify():
             
             
         else:
-            messagebox.showerror("Incorrect Password ")
+            messagebox.showerror( "INCORRECT PASSWORD","PLEASE ENTER CORRECT PASSWORD")
     else:
-        messagebox.showerror("REGISTRATION NUMBER DOES NOT EXISTS")
+        messagebox.showerror("WRONG ID.","PLEASE ENTER CORRECT REGISTRATION NO.")
 
 def forgot_pass():
     top.destroy()
@@ -506,7 +515,7 @@ def forgot_pass():
     c_lable.configure(highlightcolor="black")
     c_lable.configure(text='''Confirm Password*''')
 
-    PASSWORD_ENTRY = Entry(Canvas1)
+    PASSWORD_ENTRY = Entry(Canvas1, show="*")
     PASSWORD_ENTRY.place(relx=0.403, rely=0.294,height=34, relwidth=0.432)
     PASSWORD_ENTRY.configure(background="#ffffff")
     PASSWORD_ENTRY.configure(borderwidth="5")
@@ -521,7 +530,7 @@ def forgot_pass():
     PASSWORD_ENTRY.configure(selectforeground="white")
     PASSWORD_ENTRY.configure(textvariable=PASSWORD)
   
-    COMF_PASS_ENTRY= Entry(Canvas1)
+    COMF_PASS_ENTRY= Entry(Canvas1, show="*")
     COMF_PASS_ENTRY.place(relx=0.403, rely=0.399,height=34, relwidth=0.432)
     COMF_PASS_ENTRY.configure(background="#ffffff")
     COMF_PASS_ENTRY.configure(borderwidth="5")
@@ -582,7 +591,7 @@ def update_pass():
         count=s1.fetchone()
         print(count)
     except sqlite3.Error as err:
-        messagebox.showerror("something went wrong")
+        messagebox.showerror("ERROR","something went wrong")
 
     
     if old_id != "" and count[0] > 0:
@@ -591,15 +600,19 @@ def update_pass():
                 sql="UPDATE doctor_records SET password = '"+new_pass+"' WHERE reg_id ='"+old_id+"'"
                 s1.execute(sql)
                 conn.commit()
-                Label(pass_screen, text="Login Success").pack()
+                messagebox.showinfo("SUCCESSFULL","password updated!")
+                REGIS_ENTRY.delete(0,END)
+                PASSWORD_ENTRY.delete(0,END)
+                COMF_PASS_ENTRY.delete(0,END)
+
                 
                 
             except sqlite3.Error as err:
-                messagebox.showerror("something went wrong")
+                messagebox.showerror("ERROR","something went wrong")
         else:
-            messagebox.showerror("enter correct password")
+            messagebox.showerror("ERROR","Password did not match")
     else:
-        messagebox.showerror("enter correct registration number")
+        messagebox.showerror("ERROR","enter correct registration number")
 
 def back_command():
    

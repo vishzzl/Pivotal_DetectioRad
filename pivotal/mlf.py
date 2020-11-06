@@ -155,11 +155,14 @@ def start_ml():
 	global second_frame
 	global get_regi 
 	
-	
-	get_regi= pivotal_form.get_reg.get()
-	get_enamei=pivotal_form.get_ename.get()
-
-	
+	try:
+		get_regi= pivotal_form.get_reg.get()
+		get_enamei=pivotal_form.get_ename.get()
+		pivotal_form.Entry1_reg.delete(0,END)
+		pivotal_form.name_ebox.delete(0,END)
+	except:
+		pivotal_form.filename=""
+		get_regi= pivotal_form.p_id
 	
 	
 	
@@ -184,7 +187,7 @@ def start_ml():
 
 		#print(record)
 	except sqlite3.Error as err:
-		messagebox.showerror("something went wrong")
+		messagebox.showerror("ERROR","something went wrong")
 
 
 
@@ -192,7 +195,7 @@ def start_ml():
 
 	if get_regi != "":
 		if not record:
-			messagebox.showwarning("wrong Id")
+			messagebox.showerror("ERROR","wrong Id")
 		else:
 			
 			global root_ml
@@ -482,7 +485,7 @@ def start_ml():
 			
 			
 	else:
-		messagebox.showwarning("registration id can not be empty")
+		messagebox.showerror("ERROR","registration id can not be empty")
 	
 
 
