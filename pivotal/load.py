@@ -1,6 +1,7 @@
 import sqlite3
 import os
 from tkinter import messagebox
+import mlf
 
 
 
@@ -12,6 +13,7 @@ conn.commit()
 
 def delete_img():
     os.remove(addr)
+    mlf.root_ml.destroy()
 
 def loadBLOB(patient_id):
     global addr
