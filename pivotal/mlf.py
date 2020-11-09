@@ -131,7 +131,7 @@ def heat_map(model,path):
 	
 	cam = cv2.applyColorMap(np.uint8(255*heatmap), cv2.COLORMAP_JET)
 	
-	output_image = cv2.addWeighted(cv2.cvtColor(img.astype('uint8'), cv2.COLOR_RGB2BGR),  1, cam,0.5 , 0)
+	output_image = cv2.addWeighted(cv2.cvtColor(img.astype('uint8'), cv2.COLOR_RGB2BGR), 1, cam,0.5, 0)
 	img = Image.fromarray(output_image)
 	cv2.imwrite('detect.png',output_image)
 	img = img.resize((250, 250), Image.ANTIALIAS)
@@ -139,7 +139,7 @@ def heat_map(model,path):
 	panel = Label(second_frame, image=img ) #,compound=root_ml
 	panel.image = img
 
-	panel.grid(row=17,column=3)#root_ml was in brackets
+	panel.grid(row=15,column=4)#root_ml was in brackets
 	
 	
 
@@ -200,7 +200,7 @@ def start_ml():
 			
 			global root_ml
 			root_ml=Tk()
-			root_ml.title=("patient detalis")
+			root_ml.title("result screen")
 			root_ml.geometry("1208x681+180+100")
 			root_ml.configure(background="#002448")
 			
@@ -214,7 +214,7 @@ def start_ml():
 
 			main_frame=Frame(root_ml)
 			main_frame.place(relx=0.072, rely=0.051, relheight=0.804 , relwidth=0.847)
-			main_frame.configure(background="#c0c0c0")
+			main_frame.configure(background="#FFFFFF")
 
 			my_canvas=Canvas(main_frame)
 			my_canvas.pack(side=LEFT, fill=BOTH,expand=1)
@@ -226,17 +226,21 @@ def start_ml():
 			my_canvas.bind('<Configure>', lambda e:my_canvas.configure(scrollregion=my_canvas.bbox('all')))
 			
 			second_frame=Frame(my_canvas)
+			
+			
+			
+			
 
 			
 
 			my_canvas.create_window((0,0), window=second_frame,anchor=NW)
 
 
-			Label(second_frame, text="                   ").grid(row=0,column=0)
-			Label(second_frame, text="                  ").grid(row=0,column=1)
-			Label(second_frame, text="                                              ").grid(row=0,column=2)
+			Label(second_frame, text="     ").grid(row=0,column=0)
+			Label(second_frame, text="    								").grid(row=0,column=1)
+			#Label(second_frame, text="                                              ").grid(row=0,column=2)
 			
-			Label1 = Label(second_frame)
+			Label1 = Label(second_frame, width=20)
 			Label1.grid(row=1,column=3)
 			Label1.configure(activebackground="#000071")
 			Label1.configure(activeforeground="white")
@@ -365,7 +369,7 @@ def start_ml():
 			Label7.configure(foreground="#000040")
 			#Label2.configure(highlightbackground="#c0c0c0")
 			#Label2.configure(highlightcolor="#c0c0c0")
-			Label7.configure(text=''' X-ray''')
+			Label7.configure(text=''' X-ray/Result x-ray''')
 			
 			Label(second_frame, text="").grid(row=16,column=0)
 
@@ -382,7 +386,7 @@ def start_ml():
 			Label8.configure(foreground="#000040")
 			#Label2.configure(highlightbackground="#c0c0c0")
 			#Label2.configure(highlightcolor="#c0c0c0")
-			Label8.configure(text='''Result  X-ray''')
+			Label8.configure(text='''Refrence''')
 
 
 			
@@ -432,7 +436,7 @@ def start_ml():
 			
 			feedback_Entry = Text(second_frame)
 			feedback_Entry.grid(row=21,column=3)
-			feedback_Entry.configure( height=10, width=50)
+			feedback_Entry.configure( height=10, width=40)
 			feedback_Entry.configure(background="white")
 			feedback_Entry.configure(font="TkFixedFont")
 			feedback_Entry.configure(foreground="#000000")
@@ -467,6 +471,16 @@ def start_ml():
 			Label(second_frame, text="").grid(row=24,column=0)
 			Label(second_frame, text="").grid(row=25,column=0)
 			Label(second_frame, text="").grid(row=26,column=0)
+
+			refrence_image=Image.open(r"refrence_points.jpeg")
+			refrence_image = refrence_image.resize((250,250), Image.ANTIALIAS)
+			
+			ref=ImageTk.PhotoImage(refrence_image,master=second_frame)
+			
+			ref_label=Label(second_frame,image=ref)
+			ref_label.image=ref
+			ref_label.grid(row=17,column=3)
+
 				
 			
 			
