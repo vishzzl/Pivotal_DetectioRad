@@ -76,20 +76,20 @@ def predict(path,model):
 	result = np.argmax(confidence, axis=1)
 	print (result)
 	img = Image.open(path)
-	img = img.resize((250, 250), Image.ANTIALIAS)
+	img = img.resize((300, 300), Image.ANTIALIAS)
 	img = ImageTk.PhotoImage(img,master=second_frame)
 	panel= Label(second_frame ,image=img)
 	panel.image = img
 	
-	panel.grid(row=15,column=3)
+	panel.place(x=530,y=195)
 	heat_map(model,path)
 	if (result>0.5):
-		label=Label(second_frame,compound=tk.RIGHT,text='Covid Infected',font = "Helvetica 16 bold").grid(row=19,column=3)
+		label=Label(second_frame,compound=tk.RIGHT,text='Covid Infected',font = "Helvetica 16 bold").place(x=350,y=500)
 		return
 	
 		
 	else:
-		Labelx=tk.Label(second_frame,compound=tk.RIGHT,text='Normal',font = "Helvetica 16 bold").grid(row=19,column=3)
+		Labelx=tk.Label(second_frame,compound=tk.RIGHT,text='Normal',font = "Helvetica 16 bold").place(x=350,y=500)
 		return
 		
 		
@@ -134,12 +134,12 @@ def heat_map(model,path):
 	output_image = cv2.addWeighted(cv2.cvtColor(img.astype('uint8'), cv2.COLOR_RGB2BGR), 1, cam,0.5, 0)
 	img = Image.fromarray(output_image)
 	cv2.imwrite('detect.png',output_image)
-	img = img.resize((250, 250), Image.ANTIALIAS)
+	img = img.resize((300, 300), Image.ANTIALIAS)
 	img = ImageTk.PhotoImage(img,master=second_frame)
 	panel = Label(second_frame, image=img ) #,compound=root_ml
 	panel.image = img
 
-	panel.grid(row=15,column=4)#root_ml was in brackets
+	panel.place(x=150,y=195)#root_ml was in brackets
 	
 	
 
@@ -202,7 +202,29 @@ def start_ml():
 			root_ml=Tk()
 			root_ml.title("result screen")
 			root_ml.geometry("1208x681+180+100")
-			root_ml.configure(background="#002448")
+			root_ml.resizable(0,0)
+			root_ml.configure(background="#c0c0c0")
+
+			
+			top_logo=Image.open(r"LOGO_v2.jpg")
+			top_logo = top_logo.resize((700,150), Image.ANTIALIAS)
+			
+			header=ImageTk.PhotoImage(top_logo,master=root_ml)
+			
+			logo_label=Label(root_ml,image=header)
+			logo_label.image=header
+			logo_label.place(x=300,y=20)
+
+			Label1 = Label(root_ml, width=20)
+			Label1.place(x=500,y=200)
+			Label1.configure(background="#c0c0c0")
+			Label1.configure(borderwidth="5")
+			Label1.configure(compound='center')
+			Label1.configure(font="font9")
+			Label1.configure(foreground="#808000")
+			Label1.configure(highlightbackground="#c0c0c0")
+			Label1.configure(highlightcolor="#c0c0c0")
+			Label1.configure(text=''' Patient Details''')
 			
 			
 			
@@ -213,102 +235,97 @@ def start_ml():
 			feedback_Entry = StringVar()
 
 			main_frame=Frame(root_ml)
-			main_frame.place(relx=0.072, rely=0.051, relheight=0.804 , relwidth=0.847)
-			main_frame.configure(background="#FFFFFF")
+			#main_frame.pack(side=LEFT,fill=BOTH,expand=1)
+			main_frame.place(x=130,y=230, relheight=0.704 , relwidth=0.800)
+			#main_frame.configure(height=100, width=500)
+			main_frame.configure(background="#c0c0c0")
 
 			my_canvas=Canvas(main_frame)
+			
+			
 			my_canvas.pack(side=LEFT, fill=BOTH,expand=1)
+			my_canvas.configure(background="#c0c0c0")
 
-			my_scroll=ttk.Scrollbar(main_frame,orient=VERTICAL,command=my_canvas.yview)
+			my_scroll=ttk.Scrollbar(root_ml,orient=VERTICAL,command=my_canvas.yview)
 			my_scroll.pack(side=RIGHT,fill=Y)
 
 			my_canvas.configure(yscrollcommand=my_scroll.set)
 			my_canvas.bind('<Configure>', lambda e:my_canvas.configure(scrollregion=my_canvas.bbox('all')))
 			
 			second_frame=Frame(my_canvas)
+			second_frame.configure(background="#c0c0c0")
+			#second_frame.place(relx=110,rely=150, relheight=0.804 , relwidth=0.800)
+			
 			
 			
 			
 			
 
 			
-
 			my_canvas.create_window((0,0), window=second_frame,anchor=NW)
 
 
-			Label(second_frame, text="     ").grid(row=0,column=0)
-			Label(second_frame, text="    								").grid(row=0,column=1)
-			#Label(second_frame, text="                                              ").grid(row=0,column=2)
+			Label(second_frame, text="     ",background="#c0c0c0").grid(row=0,column=0)
+			Label(second_frame, text="    						                                               ",background="#c0c0c0").grid(row=0,column=1)
+			Label(second_frame, text="                                              					                             ",background="#c0c0c0").grid(row=1,column=4)
 			
-			Label1 = Label(second_frame, width=20)
-			Label1.grid(row=1,column=3)
-			Label1.configure(activebackground="#000071")
-			Label1.configure(activeforeground="white")
-			Label1.configure(activeforeground="#f0f0f0f0f0f0")
-			Label1.configure(background="#ababab")
-			Label1.configure(borderwidth="5")
-			Label1.configure(compound='center')
-			Label1.configure(disabledforeground="#000040")
-			Label1.configure(font="font9")
-			Label1.configure(foreground="#000040")
-			Label1.configure(highlightbackground="#c0c0c0")
-			Label1.configure(highlightcolor="#c0c0c0")
-			Label1.configure(text=''' Patient Details''')
+			
 
 			
 
 
 			Label2 = Label(second_frame)
-			Label2.grid(row=5,column=1)
+			Label2.place(x=100,y=5)
+			#Label2.grid(row=1,column=1)
 			#Label2.configure(activebackground="#000071")
 			#Label2.configure(activeforeground="white")
 			#Label2.configure(activeforeground="#f0f0f0f0f0f0")
-			#Label2.configure(background="#ababab")
-			Label2.configure(borderwidth="5")
-			Label2.configure(compound='center')
+			Label2.configure(background="#c0c0c0")
+			#Label2.configure(borderwidth="5")
+			Label2.configure(compound='left')
 			#Label2.configure(disabledforeground="#000040")
 			Label2.configure(font="font9")
 			Label2.configure(foreground="#000040")
 			#Label2.configure(highlightbackground="#c0c0c0")
 			#Label2.configure(highlightcolor="#c0c0c0")
-			Label2.configure(text=''' Id''')
+			Label2.configure(text=''' Id:-''')
 
 
-			Label(second_frame, text=ids,font = "Helvetica 16 bold").grid(row=5, column=3)
+			Label(second_frame, text=ids,font = "Helvetica 16 bold",background="#c0c0c0").place(x=325,y=5)
 
-			Label(second_frame, text="").grid(row=6,column=0)
+			#Label(second_frame, text="",background="#c0c0c0",background="#c0c0c0").grid(row=6,column=3)
 			
 
 			Label3 = Label(second_frame)
-			Label3.grid(row=7,column=1)
+			Label3.place(x=550,y=5)
 			#Label2.configure(activebackground="#000071")
 			#Label2.configure(activeforeground="white")
 			#Label2.configure(activeforeground="#f0f0f0f0f0f0")
-			#Label2.configure(background="#ababab")
+			Label3.configure(background="#c0c0c0")
 			Label3.configure(borderwidth="5")
-			Label3.configure(compound='center')
+			Label3.configure(compound='left')
 			#Label2.configure(disabledforeground="#000040")
 			Label3.configure(font="font9")
 			Label3.configure(foreground="#000040")
 			#Label2.configure(highlightbackground="#c0c0c0")
 			#Label2.configure(highlightcolor="#c0c0c0")
-			Label3.configure(text=''' NAME''')
+			Label3.configure(text=''' NAME:-''')
 
 			
-			Label(second_frame, text=name,font = "Helvetica 16 bold").grid(row=7, column=3)
-			Label(second_frame, text="").grid(row=8,column=0)
+			Label(second_frame, text=name,font = "Helvetica 16 bold",background="#c0c0c0").place(x=790, y=5)
+			
 
 
 
 
 			Label4 = Label(second_frame)
-			Label4.grid(row=9,column=1)
+			Label4.place(x=100,y=50)
 			#Label2.configure(activebackground="#000071")
 			#Label2.configure(activeforeground="white")
 			#Label2.configure(activeforeground="#f0f0f0f0f0f0")
-			#Label2.configure(background="#ababab")
+			Label4.configure(background="#c0c0c0")
 			Label4.configure(borderwidth="5")
-			Label4.configure(compound='center')
+			Label4.configure(compound='left')
 			#Label2.configure(disabledforeground="#000040")
 			Label4.configure(font="font9")
 			Label4.configure(foreground="#000040")
@@ -317,36 +334,36 @@ def start_ml():
 			Label4.configure(text=''' GENDER''')
 
 			
-			Label(second_frame, text=gender,font = "Helvetica 16 bold").grid(row=9, column=3)
-			Label(second_frame, text="").grid(row=10,column=0)
+			Label(second_frame, text=gender,font = "Helvetica 16 bold",background="#c0c0c0").place(x=325, y=50)
+			
 
 
 			Label5 = Label(second_frame)
-			Label5.grid(row=11,column=1)
+			Label5.place(x=550,y=50)
 			#Label2.configure(activebackground="#000071")
 			#Label2.configure(activeforeground="white")
 			#Label2.configure(activeforeground="#f0f0f0f0f0f0")
-			#Label2.configure(background="#ababab")
+			Label5.configure(background="#c0c0c0")
 			Label5.configure(borderwidth="5")
-			Label5.configure(compound='center')
+			Label5.configure(compound='left')
 			#Label2.configure(disabledforeground="#000040")
 			Label5.configure(font="font9")
 			Label5.configure(foreground="#000040")
 			#Label2.configure(highlightbackground="#c0c0c0")
 			#Label2.configure(highlightcolor="#c0c0c0")
-			Label5.configure(text=''' age''')
+			Label5.configure(text=''' Age''')
 
-			Label(second_frame, text=age,font = "Helvetica 16 bold").grid(row=11, column=3)
-			Label(second_frame, text="").grid(row=12,column=0)
+			Label(second_frame, text=age,font = "Helvetica 16 bold",background="#c0c0c0").place(x=790, y=50)
+			
 
 			Label6 = Label(second_frame)
-			Label6.grid(row=13,column=1)
+			Label6.place(x=100,y=95)
 			#Label2.configure(activebackground="#000071")
 			#Label2.configure(activeforeground="white")
 			#Label2.configure(activeforeground="#f0f0f0f0f0f0")
-			#Label2.configure(background="#ababab")
+			Label6.configure(background="#c0c0c0")
 			Label6.configure(borderwidth="5")
-			Label6.configure(compound='center')
+			Label6.configure(compound='left')
 			#Label2.configure(disabledforeground="#000040")
 			Label6.configure(font="font9")
 			Label6.configure(foreground="#000040")
@@ -354,33 +371,32 @@ def start_ml():
 			#Label2.configure(highlightcolor="#c0c0c0")
 			Label6.configure(text=''' Medical History''')
 
-			Label(second_frame, text=history,font = "Helvetica 16 bold").grid(row=13, column=3)
-			Label(second_frame, text="").grid(row=14,column=0)
+			Label(second_frame, text=history,font = "Helvetica 16 bold",background="#c0c0c0").place(x=325,y=95)
 			Label7= Label(second_frame)
-			Label7.grid(row=15,column=1)
+			Label7.place(x=350,y=150)
 			#Label2.configure(activebackground="#000071")
 			#Label2.configure(activeforeground="white")
 			#Label2.configure(activeforeground="#f0f0f0f0f0f0")
-			#Label2.configure(background="#ababab")
+			Label7.configure(background="#c0c0c0")
 			Label7.configure(borderwidth="5")
-			Label7.configure(compound='center')
+			Label7.configure(compound='left')
 			#Label2.configure(disabledforeground="#000040")
 			Label7.configure(font="font9")
 			Label7.configure(foreground="#000040")
 			#Label2.configure(highlightbackground="#c0c0c0")
 			#Label2.configure(highlightcolor="#c0c0c0")
-			Label7.configure(text=''' X-ray/Result x-ray''')
+			Label7.configure(text=''' Result X-ray/x-ray''')
 			
-			Label(second_frame, text="").grid(row=16,column=0)
-
+			
+			
 			Label8= Label(second_frame)
-			Label8.grid(row=17,column=1)
+			Label8.place(x=100,y=600)
 			#Label2.configure(activebackground="#000071")
 			#Label2.configure(activeforeground="white")
 			#Label2.configure(activeforeground="#f0f0f0f0f0f0")
-			#Label2.configure(background="#ababab")
+			Label8.configure(background="#c0c0c0")
 			Label8.configure(borderwidth="5")
-			Label8.configure(compound='center')
+			Label8.configure(compound='left')
 			#Label2.configure(disabledforeground="#000040")
 			Label8.configure(font="font9")
 			Label8.configure(foreground="#000040")
@@ -390,16 +406,16 @@ def start_ml():
 
 
 			
-			Label(second_frame, text="").grid(row=18,column=0)
+			
 
 			Label9= Label(second_frame)
-			Label9.grid(row=19,column=1)
+			Label9.place(x=100,y=500)
 			#Label2.configure(activebackground="#000071")
 			#Label2.configure(activeforeground="white")
 			#Label2.configure(activeforeground="#f0f0f0f0f0f0")
-			#Label2.configure(background="#ababab")
+			Label9.configure(background="#c0c0c0")
 			Label9.configure(borderwidth="5")
-			Label9.configure(compound='center')
+			Label9.configure(compound='left')
 			#Label2.configure(disabledforeground="#000040")
 			Label9.configure(font="font9")
 			Label9.configure(foreground="#000040")
@@ -408,20 +424,20 @@ def start_ml():
 			Label9.configure(text='''Result''')
 
 
-			Label(second_frame, text="").grid(row=20,column=0)
+			
 
 
 			Label10= Label(second_frame)
-			Label10.grid(row=21,column=1)
+			Label10.place(x=100,y=760)
 			#Label2.configure(activebackground="#000071")
 			#Label2.configure(activeforeground="white")
 			#Label2.configure(activeforeground="#f0f0f0f0f0f0")
-			#Label2.configure(background="#ababab")
+			Label10.configure(background="#c0c0c0")
 			Label10.configure(borderwidth="5")
-			Label10.configure(compound='center')
+			Label10.configure(compound='left')
 			#Label2.configure(disabledforeground="#000040")
 			Label10.configure(font="font9")
-			Label10.configure(foreground="#000040")
+			#Label10.configure(foreground="#000040")
 			#Label2.configure(highlightbackground="#c0c0c0")
 			#Label2.configure(highlightcolor="#c0c0c0")
 			Label10.configure(text='''Feedback''')
@@ -435,24 +451,25 @@ def start_ml():
 
 			
 			feedback_Entry = Text(second_frame)
-			feedback_Entry.grid(row=21,column=3)
+			feedback_Entry.place(x=325,y=730)
 			feedback_Entry.configure( height=10, width=40)
 			feedback_Entry.configure(background="white")
 			feedback_Entry.configure(font="TkFixedFont")
+			feedback_Entry.configure(border=5)
 			feedback_Entry.configure(foreground="#000000")
 			feedback_Entry.configure(highlightbackground="#c0c0c0")
 			feedback_Entry.configure(highlightcolor="black")
 			feedback_Entry.configure(insertbackground="black")
-			feedback_Entry.configure(relief="groove")
+			feedback_Entry.configure(relief="raised")
 			feedback_Entry.configure(selectbackground="blue")
 			feedback_Entry.insert(INSERT, feed)
 
-			Label(second_frame, text="").grid(row=22,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=22,column=0)
 
 
 			
 			Button1 = Button(second_frame, command=end_process)
-			Button1.grid(row=23,column=3)
+			Button1.place(x=350,y=930)
 			Button1.configure (height=1, width=10)
 			Button1.configure(activebackground="#ececec")
 			Button1.configure(activeforeground="#000000")
@@ -460,7 +477,7 @@ def start_ml():
 			Button1.configure(borderwidth="5")
 			Button1.configure(disabledforeground="#a3a3a3")
 			Button1.configure(font="-family {Segoe UI Black} -size 14 -weight bold -slant roman -underline 0 -overstrike 0")
-			Button1.configure(foreground="#ffffff")
+			Button1.configure(foreground="#c0c0c0")
 			Button1.configure(highlightbackground="#c0c0c0")
 			Button1.configure(highlightcolor="black")
 			Button1.configure(overrelief="raised")
@@ -468,18 +485,68 @@ def start_ml():
 			Button1.configure(pady="5")
 			Button1.configure(text='submit')
 
-			Label(second_frame, text="").grid(row=24,column=0)
-			Label(second_frame, text="").grid(row=25,column=0)
-			Label(second_frame, text="").grid(row=26,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=24,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=25,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=26,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=27,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=28,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=29,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=30,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=31,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=32,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=33,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=34,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=35,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=36,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=37,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=38,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=39,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=40,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=41,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=42,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=43,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=44,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=45,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=46,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=47,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=48,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=49,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=50,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=51,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=52,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=53,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=54,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=55,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=56,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=57,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=58,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=59,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=60,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=61,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=62,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=63,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=64,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=65,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=66,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=67,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=68,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=69,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=70,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=71,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=72,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=73,column=0)
+			Label(second_frame, text="",background="#c0c0c0").grid(row=74,column=0)
 
-			refrence_image=Image.open(r"refrence_points.jpeg")
-			refrence_image = refrence_image.resize((250,250), Image.ANTIALIAS)
+
+
+			refrence_image=Image.open(r"refrence_points.jpg")
+			refrence_image = refrence_image.resize((300,150), Image.ANTIALIAS)
 			
 			ref=ImageTk.PhotoImage(refrence_image,master=second_frame)
 			
 			ref_label=Label(second_frame,image=ref)
 			ref_label.image=ref
-			ref_label.grid(row=17,column=3)
+			ref_label.place(x=325,y=545)
 
 				
 			
