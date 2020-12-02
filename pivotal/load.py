@@ -13,7 +13,7 @@ conn.commit()
 
 def delete_img():
     os.remove(addr)
-    mlf.root_ml.destroy()
+    mlf.top.destroy()
 
 def loadBLOB(patient_id):
     global addr

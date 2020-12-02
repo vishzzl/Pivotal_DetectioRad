@@ -21,6 +21,7 @@ import sqlite3
 import tryy
 import pivotal_form
 
+
 conn = sqlite3.connect("patients_pivotal_record.db")
 
 s1=conn.cursor()
@@ -76,20 +77,42 @@ def predict(path,model):
 	result = np.argmax(confidence, axis=1)
 	print (result)
 	img = Image.open(path)
-	img = img.resize((300, 300), Image.ANTIALIAS)
-	img = ImageTk.PhotoImage(img,master=second_frame)
-	panel= Label(second_frame ,image=img)
-	panel.image = img
+	img = img.resize((560, 552), Image.ANTIALIAS)
+	img = ImageTk.PhotoImage(img,master=Frame1)
 	
-	panel.place(x=530,y=195)
+	"""panel= Label(second_frame ,image=img)
+	panel.image = img
+    panel.place(x=530,y=195)"""
+	Label3 = Label(Frame1,image=img)
+	Label3.image=img
+	Label3.place(relx=0.262, rely=0.253, height=560, width=552)
+	Label3.configure(background="#d9d9d9")
+	Label3.configure(disabledforeground="#a3a3a3")
+	Label3.configure(foreground="#000000")
 	heat_map(model,path)
 	if (result>0.5):
-		label=Label(second_frame,compound=tk.RIGHT,text='Covid Infected',font = "Helvetica 16 bold").place(x=350,y=500)
+		#label=Label(second_frame,compound=tk.RIGHT,text='Covid Infected',font = "Helvetica 16 bold").place(x=350,y=500)
+		Label6 = Label(Frame1)
+		Label6.place(relx=0.019, rely=0.888, height=64, width=325)
+		Label6.configure(background="#82f3fd")
+		Label6.configure(disabledforeground="#a3a3a3")
+		Label6.configure(font="font19")
+		Label6.configure(foreground="#000000")
+		Label6.configure(relief="ridge")
+		Label6.configure(text='''Positive''')
 		return
 	
 		
 	else:
-		Labelx=tk.Label(second_frame,compound=tk.RIGHT,text='Normal',font = "Helvetica 16 bold").place(x=350,y=500)
+		#Labelx=tk.Label(second_frame,compound=tk.RIGHT,text='Normal',font = "Helvetica 16 bold").place(x=350,y=500)
+		Label6 = Label(Frame1)
+		Label6.place(relx=0.019, rely=0.888, height=64, width=325)
+		Label6.configure(background="#82f3fd")
+		Label6.configure(disabledforeground="#a3a3a3")
+		Label6.configure(font="font19")
+		Label6.configure(foreground="#000000")
+		Label6.configure(relief="ridge")
+		Label6.configure(text='''Normal''')
 		return
 		
 		
@@ -134,12 +157,22 @@ def heat_map(model,path):
 	output_image = cv2.addWeighted(cv2.cvtColor(img.astype('uint8'), cv2.COLOR_RGB2BGR), 1, cam,0.5, 0)
 	img = Image.fromarray(output_image)
 	cv2.imwrite('detect.png',output_image)
-	img = img.resize((300, 300), Image.ANTIALIAS)
-	img = ImageTk.PhotoImage(img,master=second_frame)
-	panel = Label(second_frame, image=img ) #,compound=root_ml
+	img = img.resize((561, 552), Image.ANTIALIAS)
+	img = ImageTk.PhotoImage(img,master=Frame1)
+	"""panel = Label(second_frame, image=img ) #,compound=root_ml
 	panel.image = img
 
-	panel.place(x=150,y=195)#root_ml was in brackets
+	panel.place(x=150,y=195)#root_ml was in brackets"""
+	Label3_1 = Label(Frame1,image=img)
+	Label3_1.image=img
+	Label3_1.place(relx=0.625, rely=0.253, height=561, width=552)
+	Label3_1.configure(activebackground="#f9f9f9")
+	Label3_1.configure(activeforeground="black")
+	Label3_1.configure(background="#d9d9d9")
+	Label3_1.configure(disabledforeground="#a3a3a3")
+	Label3_1.configure(foreground="#000000")
+	Label3_1.configure(highlightbackground="#d9d9d9")
+	Label3_1.configure(highlightcolor="black")
 	
 	
 
@@ -152,8 +185,9 @@ def heat_map(model,path):
 	
 def start_ml():
 	
-	global second_frame
+	global top
 	global get_regi 
+	global feedback_Entry
 	
 	try:
 		get_regi= pivotal_form.get_reg.get()
@@ -197,357 +231,301 @@ def start_ml():
 		if not record:
 			messagebox.showerror("ERROR","wrong Id")
 		else:
+			global Frame1
 			
-			global root_ml
-			root_ml=Tk()
-			root_ml.title("result screen")
-			root_ml.geometry("1208x681+180+100")
-			root_ml.resizable(0,0)
-			root_ml.configure(background="#c0c0c0")
-
+			global val, w, root
+			global prog_location
+			"""prog_call = sys.argv[0]
+			prog_location = os.path.split(prog_call)[0]"""
+			top= Tk()
+    		#top = Toplevel1(root)
+    		#final_screen_support.init(root, top)
+			top.geometry("1656x992+252+14")
+			#top.minsize(120, 1)
+			top.maxsize(1924, 1061)
+			top.resizable(1, 1)
+			top.title("New Toplevel")
+			top.configure(background="#002448")
 			
-			top_logo=Image.open(r"LOGO_v2.jpg")
-			top_logo = top_logo.resize((700,150), Image.ANTIALIAS)
-			
-			header=ImageTk.PhotoImage(top_logo,master=root_ml)
-			
-			logo_label=Label(root_ml,image=header)
-			logo_label.image=header
-			logo_label.place(x=300,y=20)
-
-			Label1 = Label(root_ml, width=20)
-			Label1.place(x=500,y=200)
-			Label1.configure(background="#c0c0c0")
-			Label1.configure(borderwidth="5")
-			Label1.configure(compound='center')
-			Label1.configure(font="font9")
-			Label1.configure(foreground="#808000")
-			Label1.configure(highlightbackground="#c0c0c0")
-			Label1.configure(highlightcolor="#c0c0c0")
-			Label1.configure(text=''' Patient Details''')
+			Frame1 = Frame(top)
+			Frame1.place(relx=0.024, rely=0.04, relheight=0.897, relwidth=0.961)
+			Frame1.configure(relief='sunken')
+			Frame1.configure(borderwidth="2")
+			Frame1.configure(relief="sunken")
+			Frame1.configure(background="#c0c0c0")
 			
 			
+			#photo_location = os.path.join(prog_location,"LOGO_v1.png")
+			img = Image.open(r"LOGO_v2.jpg")
+			img = img.resize((240, 102), Image.ANTIALIAS)
+			
+			img0 = ImageTk.PhotoImage(img,master=Frame1)
+			
+			Label1=Label(Frame1,image=img0)
+			Label1.image=img0
+			Label1.place(relx=0.842, rely=0.011, height=102, width=240)
 			
 			
-
-			global feedback_Entry
-
-			feedback_Entry = StringVar()
-
-			main_frame=Frame(root_ml)
-			#main_frame.pack(side=LEFT,fill=BOTH,expand=1)
-			main_frame.place(x=130,y=230, relheight=0.704 , relwidth=0.800)
-			#main_frame.configure(height=100, width=500)
-			main_frame.configure(background="#c0c0c0")
-
-			my_canvas=Canvas(main_frame)
+			TSeparator1 =ttk.Separator(Frame1)
+			TSeparator1.place(relx=0.248, rely=0.007, relheight=0.985)
+			TSeparator1.configure(orient="vertical")
 			
-			
-			my_canvas.pack(side=LEFT, fill=BOTH,expand=1)
-			my_canvas.configure(background="#c0c0c0")
-
-			my_scroll=ttk.Scrollbar(root_ml,orient=VERTICAL,command=my_canvas.yview)
-			my_scroll.pack(side=RIGHT,fill=Y)
-
-			my_canvas.configure(yscrollcommand=my_scroll.set)
-			my_canvas.bind('<Configure>', lambda e:my_canvas.configure(scrollregion=my_canvas.bbox('all')))
-			
-			second_frame=Frame(my_canvas)
-			second_frame.configure(background="#c0c0c0")
-			#second_frame.place(relx=110,rely=150, relheight=0.804 , relwidth=0.800)
-			
-			
-			
-			
-			
-
-			
-			my_canvas.create_window((0,0), window=second_frame,anchor=NW)
-
-
-			Label(second_frame, text="     ",background="#c0c0c0").grid(row=0,column=0)
-			Label(second_frame, text="    						                                               ",background="#c0c0c0").grid(row=0,column=1)
-			Label(second_frame, text="                                              					                             ",background="#c0c0c0").grid(row=1,column=4)
-			
-			
-
-			
-
-
-			Label2 = Label(second_frame)
-			Label2.place(x=100,y=5)
-			#Label2.grid(row=1,column=1)
-			#Label2.configure(activebackground="#000071")
-			#Label2.configure(activeforeground="white")
-			#Label2.configure(activeforeground="#f0f0f0f0f0f0")
+			Label2 = Label(Frame1)
+			Label2.place(relx=0.038, rely=0.022, height=65, width=258)
 			Label2.configure(background="#c0c0c0")
-			#Label2.configure(borderwidth="5")
-			Label2.configure(compound='left')
-			#Label2.configure(disabledforeground="#000040")
-			Label2.configure(font="font9")
-			Label2.configure(foreground="#000040")
-			#Label2.configure(highlightbackground="#c0c0c0")
-			#Label2.configure(highlightcolor="#c0c0c0")
-			Label2.configure(text=''' Id:-''')
-
-
-			Label(second_frame, text=ids,font = "Helvetica 16 bold",background="#c0c0c0").place(x=325,y=5)
-
-			#Label(second_frame, text="",background="#c0c0c0",background="#c0c0c0").grid(row=6,column=3)
-			
-
-			Label3 = Label(second_frame)
-			Label3.place(x=550,y=5)
-			#Label2.configure(activebackground="#000071")
-			#Label2.configure(activeforeground="white")
-			#Label2.configure(activeforeground="#f0f0f0f0f0f0")
-			Label3.configure(background="#c0c0c0")
-			Label3.configure(borderwidth="5")
-			Label3.configure(compound='left')
-			#Label2.configure(disabledforeground="#000040")
-			Label3.configure(font="font9")
-			Label3.configure(foreground="#000040")
-			#Label2.configure(highlightbackground="#c0c0c0")
-			#Label2.configure(highlightcolor="#c0c0c0")
-			Label3.configure(text=''' NAME:-''')
-
-			
-			Label(second_frame, text=name,font = "Helvetica 16 bold",background="#c0c0c0").place(x=790, y=5)
-			
-
-
-
-
-			Label4 = Label(second_frame)
-			Label4.place(x=100,y=50)
-			#Label2.configure(activebackground="#000071")
-			#Label2.configure(activeforeground="white")
-			#Label2.configure(activeforeground="#f0f0f0f0f0f0")
-			Label4.configure(background="#c0c0c0")
-			Label4.configure(borderwidth="5")
-			Label4.configure(compound='left')
-			#Label2.configure(disabledforeground="#000040")
-			Label4.configure(font="font9")
-			Label4.configure(foreground="#000040")
-			#Label2.configure(highlightbackground="#c0c0c0")
-			#Label2.configure(highlightcolor="#c0c0c0")
-			Label4.configure(text=''' GENDER''')
-
-			
-			Label(second_frame, text=gender,font = "Helvetica 16 bold",background="#c0c0c0").place(x=325, y=50)
-			
-
-
-			Label5 = Label(second_frame)
-			Label5.place(x=550,y=50)
-			#Label2.configure(activebackground="#000071")
-			#Label2.configure(activeforeground="white")
-			#Label2.configure(activeforeground="#f0f0f0f0f0f0")
-			Label5.configure(background="#c0c0c0")
-			Label5.configure(borderwidth="5")
-			Label5.configure(compound='left')
-			#Label2.configure(disabledforeground="#000040")
-			Label5.configure(font="font9")
-			Label5.configure(foreground="#000040")
-			#Label2.configure(highlightbackground="#c0c0c0")
-			#Label2.configure(highlightcolor="#c0c0c0")
-			Label5.configure(text=''' Age''')
-
-			Label(second_frame, text=age,font = "Helvetica 16 bold",background="#c0c0c0").place(x=790, y=50)
-			
-
-			Label6 = Label(second_frame)
-			Label6.place(x=100,y=95)
-			#Label2.configure(activebackground="#000071")
-			#Label2.configure(activeforeground="white")
-			#Label2.configure(activeforeground="#f0f0f0f0f0f0")
-			Label6.configure(background="#c0c0c0")
-			Label6.configure(borderwidth="5")
-			Label6.configure(compound='left')
-			#Label2.configure(disabledforeground="#000040")
-			Label6.configure(font="font9")
-			Label6.configure(foreground="#000040")
-			#Label2.configure(highlightbackground="#c0c0c0")
-			#Label2.configure(highlightcolor="#c0c0c0")
-			Label6.configure(text=''' Medical History''')
-
-			Label(second_frame, text=history,font = "Helvetica 16 bold",background="#c0c0c0").place(x=325,y=95)
-			Label7= Label(second_frame)
-			Label7.place(x=350,y=150)
-			#Label2.configure(activebackground="#000071")
-			#Label2.configure(activeforeground="white")
-			#Label2.configure(activeforeground="#f0f0f0f0f0f0")
-			Label7.configure(background="#c0c0c0")
-			Label7.configure(borderwidth="5")
-			Label7.configure(compound='left')
-			#Label2.configure(disabledforeground="#000040")
-			Label7.configure(font="font9")
-			Label7.configure(foreground="#000040")
-			#Label2.configure(highlightbackground="#c0c0c0")
-			#Label2.configure(highlightcolor="#c0c0c0")
-			Label7.configure(text=''' Result X-ray/x-ray''')
+			Label2.configure(disabledforeground="#a3a3a3")
+			Label2.configure(font="font11")
+			Label2.configure(foreground="#000000")
+			Label2.configure(text='''Patient Details''')
 			
 			
 			
-			Label8= Label(second_frame)
-			Label8.place(x=100,y=600)
-			#Label2.configure(activebackground="#000071")
-			#Label2.configure(activeforeground="white")
-			#Label2.configure(activeforeground="#f0f0f0f0f0f0")
-			Label8.configure(background="#c0c0c0")
-			Label8.configure(borderwidth="5")
-			Label8.configure(compound='left')
-			#Label2.configure(disabledforeground="#000040")
-			Label8.configure(font="font9")
-			Label8.configure(foreground="#000040")
-			#Label2.configure(highlightbackground="#c0c0c0")
-			#Label2.configure(highlightcolor="#c0c0c0")
-			Label8.configure(text='''Refrence''')
-
-
+			Label4 = Label(Frame1)
+			Label4.place(relx=0.262, rely=0.200, height=33, width=552)
+			Label4.configure(background="gold")
+			Label4.configure(disabledforeground="#a3a3a3")
+			Label4.configure(font="font14")
+			Label4.configure(foreground="#000000")
+			Label4.configure(relief="groove")
+			Label4.configure(text='''X-RAY''')
 			
+			Label4_2 = Label(Frame1)
+			Label4_2.place(relx=0.625, rely=0.200, height=33, width=546)
+			Label4_2.configure(activebackground="#f9f9f9")
+			Label4_2.configure(activeforeground="black")
+			Label4_2.configure(background="gold")
+			Label4_2.configure(disabledforeground="#a3a3a3")
+			Label4_2.configure(font="font14")
+			Label4_2.configure(foreground="#000000")
+			Label4_2.configure(highlightbackground="#d9d9d9")
+			Label4_2.configure(highlightcolor="black")
+			Label4_2.configure(relief="groove")
+			Label4_2.configure(text='''Heat Map''')
 			
-
-			Label9= Label(second_frame)
-			Label9.place(x=100,y=500)
-			#Label2.configure(activebackground="#000071")
-			#Label2.configure(activeforeground="white")
-			#Label2.configure(activeforeground="#f0f0f0f0f0f0")
-			Label9.configure(background="#c0c0c0")
-			Label9.configure(borderwidth="5")
-			Label9.configure(compound='left')
-			#Label2.configure(disabledforeground="#000040")
-			Label9.configure(font="font9")
-			Label9.configure(foreground="#000040")
-			#Label2.configure(highlightbackground="#c0c0c0")
-			#Label2.configure(highlightcolor="#c0c0c0")
-			Label9.configure(text='''Result''')
-
-
-			
-
-
-			Label10= Label(second_frame)
-			Label10.place(x=100,y=760)
-			#Label2.configure(activebackground="#000071")
-			#Label2.configure(activeforeground="white")
-			#Label2.configure(activeforeground="#f0f0f0f0f0f0")
-			Label10.configure(background="#c0c0c0")
-			Label10.configure(borderwidth="5")
-			Label10.configure(compound='left')
-			#Label2.configure(disabledforeground="#000040")
-			Label10.configure(font="font9")
-			#Label10.configure(foreground="#000040")
-			#Label2.configure(highlightbackground="#c0c0c0")
-			#Label2.configure(highlightcolor="#c0c0c0")
-			Label10.configure(text='''Feedback''')
-
-
-
-
-
-
-
-
-			
-			feedback_Entry = Text(second_frame)
-			feedback_Entry.place(x=325,y=730)
-			feedback_Entry.configure( height=10, width=40)
-			feedback_Entry.configure(background="white")
-			feedback_Entry.configure(font="TkFixedFont")
-			feedback_Entry.configure(border=5)
-			feedback_Entry.configure(foreground="#000000")
-			feedback_Entry.configure(highlightbackground="#c0c0c0")
-			feedback_Entry.configure(highlightcolor="black")
-			feedback_Entry.configure(insertbackground="black")
-			feedback_Entry.configure(relief="raised")
-			feedback_Entry.configure(selectbackground="blue")
-			feedback_Entry.insert(INSERT, feed)
-
-			Label(second_frame, text="",background="#c0c0c0").grid(row=22,column=0)
-
-
-			
-			Button1 = Button(second_frame, command=end_process)
-			Button1.place(x=350,y=930)
-			Button1.configure (height=1, width=10)
+			Button1 = Button(Frame1,command=end_process)
+			Button1.place(relx=0.471, rely=0.921, height=44, width=457)
 			Button1.configure(activebackground="#ececec")
 			Button1.configure(activeforeground="#000000")
-			Button1.configure(background="#092748")
-			Button1.configure(borderwidth="5")
+			Button1.configure(background="#437afc")
+			Button1.configure(borderwidth="4")
 			Button1.configure(disabledforeground="#a3a3a3")
-			Button1.configure(font="-family {Segoe UI Black} -size 14 -weight bold -slant roman -underline 0 -overstrike 0")
-			Button1.configure(foreground="#c0c0c0")
-			Button1.configure(highlightbackground="#c0c0c0")
+			Button1.configure(font="font21")
+			Button1.configure(foreground="#000000")
+			Button1.configure(highlightbackground="#d9d9d9")
 			Button1.configure(highlightcolor="black")
-			Button1.configure(overrelief="raised")
-			Button1.configure(padx="5")
-			Button1.configure(pady="5")
-			Button1.configure(text='submit')
-
-			Label(second_frame, text="",background="#c0c0c0").grid(row=24,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=25,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=26,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=27,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=28,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=29,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=30,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=31,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=32,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=33,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=34,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=35,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=36,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=37,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=38,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=39,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=40,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=41,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=42,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=43,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=44,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=45,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=46,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=47,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=48,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=49,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=50,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=51,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=52,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=53,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=54,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=55,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=56,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=57,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=58,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=59,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=60,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=61,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=62,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=63,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=64,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=65,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=66,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=67,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=68,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=69,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=70,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=71,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=72,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=73,column=0)
-			Label(second_frame, text="",background="#c0c0c0").grid(row=74,column=0)
-
-
-
-			refrence_image=Image.open(r"refrence_points.jpg")
-			refrence_image = refrence_image.resize((300,150), Image.ANTIALIAS)
+			Button1.configure(pady="0")
+			Button1.configure(text='''Save''')
 			
-			ref=ImageTk.PhotoImage(refrence_image,master=second_frame)
+			Label5_3 = Label(Frame1)
+			Label5_3.place(relx=0.088, rely=0.156, height=32, width=237)
+			Label5_3.configure(activebackground="#f9f9f9")
+			Label5_3.configure(activeforeground="black")
+			Label5_3.configure(background="#ffffff")
+			Label5_3.configure(disabledforeground="#a3a3a3")
+			Label5_3.configure(foreground="#000000")
+			Label5_3.configure(highlightbackground="#d9d9d9")
+			Label5_3.configure(highlightcolor="black")
+			Label5_3.configure(text=ids)
 			
-			ref_label=Label(second_frame,image=ref)
-			ref_label.image=ref
-			ref_label.place(x=325,y=545)
+			Label5_4 = Label(Frame1)
+			Label5_4.place(relx=0.088, rely=0.213, height=31, width=237)
+			Label5_4.configure(activebackground="#f9f9f9")
+			Label5_4.configure(activeforeground="black")
+			Label5_4.configure(background="#ffffff")
+			Label5_4.configure(disabledforeground="#a3a3a3")
+			Label5_4.configure(foreground="#000000")
+			Label5_4.configure(highlightbackground="#d9d9d9")
+			Label5_4.configure(highlightcolor="black")
+			Label5_4.configure(text=name)
+			
+			Label5_5 = Label(Frame1)
+			Label5_5.place(relx=0.088, rely=0.267, height=31, width=237)
+			Label5_5.configure(activebackground="#f9f9f9")
+			Label5_5.configure(activeforeground="black")
+			Label5_5.configure(background="#ffffff")
+			Label5_5.configure(disabledforeground="#a3a3a3")
+			Label5_5.configure(foreground="#000000")
+			Label5_5.configure(highlightbackground="#d9d9d9")
+			Label5_5.configure(highlightcolor="black")
+			Label5_5.configure(text=gender)
+			
+			Label5_5 = Label(Frame1)
+			Label5_5.place(relx=0.019, rely=0.427, height=92, width=339)
+			Label5_5.configure(activebackground="#f9f9f9")
+			Label5_5.configure(activeforeground="black")
+			Label5_5.configure(background="#fdfdfd")
+			Label5_5.configure(disabledforeground="#a3a3a3")
+			Label5_5.configure(foreground="#000000")
+			Label5_5.configure(highlightbackground="#d9d9d9")
+			Label5_5.configure(highlightcolor="black")
+			Label5_5.configure(text=history)
+			
+			Label5_5 = Label(Frame1)
+			Label5_5.place(relx=0.088, rely=0.326, height=31, width=237)
+			Label5_5.configure(activebackground="#f9f9f9")
+			Label5_5.configure(activeforeground="black")
+			Label5_5.configure(background="#ffffff")
+			Label5_5.configure(disabledforeground="#a3a3a3")
+			Label5_5.configure(foreground="#000000")
+			Label5_5.configure(highlightbackground="#d9d9d9")
+			Label5_5.configure(highlightcolor="black")
+			Label5_5.configure(text=age)
+			
+			Label5 = Label(Frame1)
+			Label5.place(relx=0.013, rely=0.156, height=32, width=113)
+			Label5.configure(activebackground="lightsalmon")
+			Label5.configure(background="lightsalmon")
+			Label5.configure(disabledforeground="#a3a3a3")
+			Label5.configure(font="font18")
+			Label5.configure(foreground="#000000")
+			Label5.configure(relief="raised")
+			Label5.configure(state='active')
+			Label5.configure(text='''ID''')
+			
+			feedback_Entry = Text(Frame1)
+			feedback_Entry.place(relx=0.019, rely=0.607,height=150, relwidth=0.21)
+			feedback_Entry.insert(INSERT, feed)
+			
+			Label5_6 = Label(Frame1)
+			Label5_6.place(relx=0.019, rely=0.562, height=33, width=338)
+			Label5_6.configure(activebackground="#f9f9f9")
+			Label5_6.configure(activeforeground="black")
+			Label5_6.configure(background="lightsalmon")
+			Label5_6.configure(disabledforeground="#a3a3a3")
+			Label5_6.configure(font="font17")
+			Label5_6.configure(foreground="#000000")
+			Label5_6.configure(highlightbackground="#d9d9d9")
+			Label5_6.configure(highlightcolor="black")
+			Label5_6.configure(relief="raised")
+			Label5_6.configure(text='''Doctor Review''')
+			
+			Label5_7 = Label(Frame1)
+			Label5_7.place(relx=0.019, rely=0.831, height=33, width=328)
+			Label5_7.configure(activebackground="#f9f9f9")
+			Label5_7.configure(activeforeground="black")
+			Label5_7.configure(background="lightsalmon")
+			Label5_7.configure(disabledforeground="#a3a3a3")
+			Label5_7.configure(font="-family {Bahnschrift SemiBold} -size 14 -weight bold -slant roman -underline 0 -overstrike 0")
+			Label5_7.configure(foreground="#000000")
+			Label5_7.configure(highlightbackground="#d9d9d9")
+			Label5_7.configure(highlightcolor="black")
+			Label5_7.configure(relief="raised")
+			Label5_7.configure(text='''Predicted Result''')
+			
+			Label5_8 = Label(Frame1)
+			Label5_8.place(relx=0.013, rely=0.213, height=32, width=113)
+			Label5_8.configure(activebackground="lightsalmon")
+			Label5_8.configure(activeforeground="black")
+			Label5_8.configure(background="lightsalmon")
+			Label5_8.configure(disabledforeground="#a3a3a3")
+			Label5_8.configure(font="-family {Bahnschrift SemiBold} -size 13 -weight bold -slant roman -underline 0 -overstrike 0")
+			Label5_8.configure(foreground="#000000")
+			Label5_8.configure(highlightbackground="#d9d9d9")
+			Label5_8.configure(highlightcolor="black")
+			Label5_8.configure(relief="raised")
+			Label5_8.configure(state='active')
+			Label5_8.configure(text='''Name''')
+			
+			Label5_9 = Label(Frame1)
+			Label5_9.place(relx=0.013, rely=0.27, height=32, width=113)
+			Label5_9.configure(activebackground="lightsalmon")
+			Label5_9.configure(activeforeground="black")
+			Label5_9.configure(background="lightsalmon")
+			Label5_9.configure(disabledforeground="#a3a3a3")
+			Label5_9.configure(font="-family {Bahnschrift SemiBold} -size 13 -weight bold -slant roman -underline 0 -overstrike 0")
+			Label5_9.configure(foreground="#000000")
+			Label5_9.configure(highlightbackground="#d9d9d9")
+			Label5_9.configure(highlightcolor="black")
+			Label5_9.configure(relief="raised")
+			Label5_9.configure(state='active')
+			Label5_9.configure(text='''Gender''')
+			
+			Label5_10 = Label(Frame1)
+			Label5_10.place(relx=0.013, rely=0.326, height=32, width=113)
+			Label5_10.configure(activebackground="lightsalmon")
+			Label5_10.configure(activeforeground="black")
+			Label5_10.configure(background="lightsalmon")
+			Label5_10.configure(disabledforeground="#a3a3a3")
+			Label5_10.configure(font="-family {Bahnschrift SemiBold} -size 13 -weight bold -slant roman -underline 0 -overstrike 0")
+			Label5_10.configure(foreground="#000000")
+			Label5_10.configure(highlightbackground="#d9d9d9")
+			Label5_10.configure(highlightcolor="black")
+			Label5_10.configure(relief="raised")
+			Label5_10.configure(state='active')
+			Label5_10.configure(text='''Age''')
+			
+			Label5_11 = Label(Frame1)
+			Label5_11.place(relx=0.019, rely=0.382, height=32, width=344)
+			Label5_11.configure(activebackground="lightsalmon")
+			Label5_11.configure(activeforeground="black")
+			Label5_11.configure(background="lightsalmon")
+			Label5_11.configure(disabledforeground="#a3a3a3")
+			Label5_11.configure(font="-family {Bahnschrift SemiBold} -size 13 -weight bold -slant roman -underline 0 -overstrike 0")
+			Label5_11.configure(foreground="#000000")
+			Label5_11.configure(highlightbackground="#d9d9d9")
+			Label5_11.configure(highlightcolor="black")
+			Label5_11.configure(relief="raised")
+			Label5_11.configure(state='active')
+			Label5_11.configure(text='''Medical History''')
+			
 
+			Label1 = Label(Frame1)
+			Label1.place(relx=0.262, rely=0.155, height=27, width=19)
+			Label1.configure(background="#ff1111")
+			Label1.configure(disabledforeground="#a3a3a3")
+			Label1.configure(foreground="#000000")
+			
+			Label1_1 = Label(Frame1)
+			Label1_1.place(relx=0.500, rely=0.155, height=27, width=19)
+			Label1_1.configure(activebackground="#f9f9f9")
+			Label1_1.configure(activeforeground="black")
+			Label1_1.configure(background="#f2fe12")
+			Label1_1.configure(disabledforeground="#a3a3a3")
+			Label1_1.configure(foreground="#000000")
+			Label1_1.configure(highlightbackground="#d9d9d9")
+			Label1_1.configure(highlightcolor="black")
+			
+			Label1_3 = Label(Frame1)
+			Label1_3.place(relx=0.820, rely=0.155, height=27, width=19)
+			Label1_3.configure(activebackground="#f9f9f9")
+			Label1_3.configure(activeforeground="black")
+			Label1_3.configure(background="#1282fe")
+			Label1_3.configure(disabledforeground="#a3a3a3")
+			Label1_3.configure(foreground="#000000")
+			Label1_3.configure(highlightbackground="#d9d9d9")
+			Label1_3.configure(highlightcolor="black")
+			
+			Label2 = Label(Frame1)
+			Label2.place(relx=0.291, rely=0.155, height=27, width=84)
+			Label2.configure(background="#c0c0c0")
+			Label2.configure(disabledforeground="#a3a3a3")
+			Label2.configure(foreground="#000000")
+			Label2.configure(text='''highly infected''')
+			
+			Label2_5 = Label(Frame1)
+			Label2_5.place(relx=0.530, rely=0.155, height=27, width=114)
+			Label2_5.configure(activebackground="#f9f9f9")
+			Label2_5.configure(activeforeground="black")
+			Label2_5.configure(background="#c0c0c0")
+			Label2_5.configure(disabledforeground="#a3a3a3")
+			Label2_5.configure(foreground="#000000")
+			Label2_5.configure(highlightbackground="#d9d9d9")
+			Label2_5.configure(highlightcolor="black")
+			Label2_5.configure(text='''moderately infected''')
+			
+			Label2_6 = Label(Frame1)
+			Label2_6.place(relx=0.850, rely=0.155, height=27, width=82)
+			Label2_6.configure(activebackground="#f9f9f9")
+			Label2_6.configure(activeforeground="black")
+			Label2_6.configure(background="#c0c0c0")
+			Label2_6.configure(disabledforeground="#a3a3a3")
+			Label2_6.configure(foreground="#000000")
+			Label2_6.configure(highlightbackground="#d9d9d9")
+			Label2_6.configure(highlightcolor="black")
+			Label2_6.configure(text='''not infected''')
+			
+			
+			
 				
 			
 			
@@ -557,7 +535,10 @@ def start_ml():
 			print(path)
 			model=get_model()
 			predict(path,model)
-			root_ml.mainloop()
+			top.mainloop()
+			
+			
+			
 			 
 			
 
@@ -570,6 +551,5 @@ def start_ml():
 	
 
 
-#start_ml()
 
 
