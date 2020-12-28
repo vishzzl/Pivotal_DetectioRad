@@ -8,6 +8,8 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 import time
 import sys
+import pivotal_form
+
 
 
 
@@ -42,11 +44,12 @@ def register():
     register_screen.resizable(0,0)
     Button(register_screen, text="Back", width=5, height=1, bg="blue", command = back_command).place(x=5, y=5)"""
 
-    
-    register_screen.geometry("1208x681+180+100")
-    #register_screen.minsize(w_x,w_y)
+    width_value=register_screen.winfo_screenwidth()
+    height_value=register_screen.winfo_screenheight()
+    register_screen.geometry("%dx%d+0+0"%(width_value,height_value))
+    #register_screen.minsize("800x600")
     #register_screen.maxsize(1924, 1055)
-    register_screen.resizable(0,0)
+    register_screen.resizable(50,50)
     register_screen.title("Register")
     register_screen.configure(background="#002448")
     
@@ -385,7 +388,7 @@ def login_verify():
             doctor_id = a[0][1]
             doctor_name = a[0][0]
             print(doctor_id)
-            import pivotal_form
+            
             pivotal_form.form_page()
             
             
@@ -400,7 +403,10 @@ def forgot_pass():
     pass_screen =Tk()
 
     
-    pass_screen.geometry("1208x681+190+100")
+    width_value=pass_screen.winfo_screenwidth()
+    height_value=pass_screen.winfo_screenheight()
+    pass_screen.geometry("%dx%d+0+0"%(width_value,height_value))
+    
     #pass_screen.minsize(w_x,w_y)
     #register_screen.maxsize(1924, 1055)
     pass_screen.resizable(0,0)
@@ -451,7 +457,7 @@ def forgot_pass():
     
    
     Label1 = Label(Canvas1)
-    Label1.place(relx=0.122, rely=0.063, height=36, width=750)
+    Label1.place(relx=0.122, rely=0.063, height=36, width=1300)
     Label1.configure(activebackground="#000071")
     Label1.configure(activeforeground="white")
     Label1.configure(activeforeground="#f0f0f0f0f0f0")
@@ -466,7 +472,7 @@ def forgot_pass():
     Label1.configure(text='''forgot Password''')
   
     label2 = Label(Canvas1)
-    label2.place(relx=0.171, rely=0.189, height=36, width=184)
+    label2.place(relx=0.171, rely=0.189, height=40, width=184)
     label2.configure(background="#c0c0c0")
     label2.configure(borderwidth="5")
     label2.configure(compound='center')
@@ -476,7 +482,7 @@ def forgot_pass():
     label2.configure(text='''Registration no. *''')
   
     REGIS_ENTRY = Entry(Canvas1)
-    REGIS_ENTRY.place(relx=0.403, rely=0.189,height=34, relwidth=0.432)
+    REGIS_ENTRY.place(relx=0.403, rely=0.189,height=40, relwidth=0.432)
     REGIS_ENTRY.configure(background="#ffffff")
     REGIS_ENTRY.configure(borderwidth="5")
     REGIS_ENTRY.configure(disabledforeground="#a3a3a3")
@@ -488,7 +494,7 @@ def forgot_pass():
 
     
     lable = Label(Canvas1)
-    lable.place(relx=0.195, rely=0.294, height=36, width=164)
+    lable.place(relx=0.195, rely=0.294, height=40, width=164)
     lable.configure(activebackground="#f9f9f9")
     lable.configure(activeforeground="black")
     lable.configure(background="#c0c0c0")
@@ -502,7 +508,7 @@ def forgot_pass():
     lable.configure(text='''Password *''')
   
     c_lable = Label(Canvas1)
-    c_lable.place(relx=0.195, rely=0.399, height=36, width=164)
+    c_lable.place(relx=0.195, rely=0.399, height=40, width=164)
     c_lable.configure(activebackground="#f9f9f9")
     c_lable.configure(activeforeground="black")
     c_lable.configure(background="#c0c0c0")
@@ -516,7 +522,7 @@ def forgot_pass():
     c_lable.configure(text='''Confirm Password*''')
 
     PASSWORD_ENTRY = Entry(Canvas1, show="*")
-    PASSWORD_ENTRY.place(relx=0.403, rely=0.294,height=34, relwidth=0.432)
+    PASSWORD_ENTRY.place(relx=0.403, rely=0.294,height=40, relwidth=0.432)
     PASSWORD_ENTRY.configure(background="#ffffff")
     PASSWORD_ENTRY.configure(borderwidth="5")
     PASSWORD_ENTRY.configure(disabledforeground="#a3a3a3")
@@ -531,7 +537,7 @@ def forgot_pass():
     PASSWORD_ENTRY.configure(textvariable=PASSWORD)
   
     COMF_PASS_ENTRY= Entry(Canvas1, show="*")
-    COMF_PASS_ENTRY.place(relx=0.403, rely=0.399,height=34, relwidth=0.432)
+    COMF_PASS_ENTRY.place(relx=0.403, rely=0.399,height=40, relwidth=0.432)
     COMF_PASS_ENTRY.configure(background="#ffffff")
     COMF_PASS_ENTRY.configure(borderwidth="5")
     COMF_PASS_ENTRY.configure(disabledforeground="#a3a3a3")
@@ -562,7 +568,7 @@ def forgot_pass():
     Button2.configure(text='''Back''')
 
     Button1 = Button(Canvas1)
-    Button1.place(relx=0.359, rely=0.676, height=33, width=276)
+    Button1.place(relx=0.400, rely=0.676, height=40, width=280)
     Button1.configure(activebackground="#ffffff")
     Button1.configure(activeforeground="#000000")
     Button1.configure(background="#1a1a1a")
@@ -623,35 +629,6 @@ def back_command2():
     pass_screen.destroy()
     main_account_screen()
 
-"""class splalsh_screen:
-    global start_root
-    
-    start_root=Tk()
-    start_root.config(bg="black")
-    start_root.title("DetectioRad")
-    Logo=Image.open(r"LOGO_v1.png")
-    global w_x
-    global w_y
-    w_x=Logo.size[0]
-    w_y=Logo.size[1]
-    start_root.minsize(w_x,w_y)
-    start_root.resizable(0,0)
-    Logo_in=ImageTk.PhotoImage(Logo)
-    Logo_label=Label(start_root,image=Logo_in,padx=100,pady=100)
-    Logo_label.image=Logo_in
-    Logo_label.place(x=0,y=0)
-    loading_bar=ttk.Progressbar(start_root,orient=HORIZONTAL,length=w_x-50,mode='determinate')
-    loading_bar.config(maximum=100, value=25)
-    loading_bar.place(x=25,y=w_y-30)
-    loading_lable=Label(start_root,text=loading_bar['value'])
-    loading_lable.place(x=(w_x-50)//2,y=w_y-30)
-    loading_bar['value']=0
-    start_root.update()
-    while loading_bar['value']<100:
-        loading_bar['value']+=10
-        loading_lable.config(text=loading_bar['value'])
-        start_root.update()
-        time.sleep(0.5)"""
 
 def main_account_screen():
     '''This class configures and populates the toplevel window.
@@ -673,7 +650,10 @@ def main_account_screen():
     
     top=Tk()
     #top.minsize(w_x,w_y)
-    top.geometry("1208x681+190+100")
+    width_value=top.winfo_screenwidth()
+    height_value=top.winfo_screenheight()
+    top.geometry("%dx%d+0+0"%(width_value,height_value))
+    
     
     #top.maxsize(1924, 1055)
     top.resizable(0,0)
@@ -697,7 +677,7 @@ def main_account_screen():
     canvas1.configure(selectforeground="white")
 
     Label1=Label(canvas1)
-    Label1.place(relx=0.185, rely=0.249, height=32, width=198)
+    Label1.place(relx=0.185, rely=0.249, height=40, width=198)
     Label1.configure(activebackground="#808080")
     Label1.configure(activeforeground="#000000")
     Label1.configure(background="#c0c0c0")
@@ -712,7 +692,7 @@ def main_account_screen():
     Label1.configure(text='''Registration no.''')
 
     Entry1 = Entry(canvas1, textvariable=username_verify)
-    Entry1.place(relx=0.39, rely=0.249,height=34, relwidth=0.343)
+    Entry1.place(relx=0.39, rely=0.249,height=40, relwidth=0.343)
     Entry1.configure(background="#ffffff")
     Entry1.configure(borderwidth="2")
     Entry1.configure(disabledforeground="#a3a3a3")
@@ -726,7 +706,7 @@ def main_account_screen():
     Entry1.configure(selectforeground="white")
 
     Entry1_5 = Entry(canvas1, show="*")
-    Entry1_5.place(relx=0.39, rely=0.391,height=34, relwidth=0.343)
+    Entry1_5.place(relx=0.39, rely=0.391,height=40, relwidth=0.343)
     Entry1_5.configure(background="#ffffff")
     Entry1_5.configure(borderwidth="2")
     Entry1_5.configure(disabledforeground="#a3a3a3")
@@ -741,7 +721,7 @@ def main_account_screen():
     Entry1_5.configure(textvariable=password_verify)
 
     Label1_6 = Label(canvas1)
-    Label1_6.place(relx=0.185, rely=0.391, height=32, width=198)
+    Label1_6.place(relx=0.185, rely=0.391, height=40, width=198)
     Label1_6.configure(activebackground="#808080")
     Label1_6.configure(activeforeground="#000000")
     Label1_6.configure(background="#c0c0c0")
@@ -758,7 +738,7 @@ def main_account_screen():
     Label1_6.configure(text='''Password''')
    
     Label2 = Label(canvas1)
-    Label2.place(relx=0.164, rely=0.071, height=36, width=632)
+    Label2.place(relx=0.164, rely=0.071, height=40, width=1100)
     Label2.configure(activebackground="#000071")
     Label2.configure(activeforeground="white")
     Label2.configure(activeforeground="black")
@@ -773,7 +753,7 @@ def main_account_screen():
     Label2.configure(text='''Login User''')
    
     Button1 = Button(canvas1, command=forgot_pass)
-    Button1.place(relx=0.359, rely=0.676, height=33, width=276)
+    Button1.place(relx=0.400, rely=0.676, height=40, width=350)
     Button1.configure(activebackground="#ececec")
     Button1.configure(activeforeground="#000000")
     Button1.configure(background="#c0c0c0")
@@ -788,7 +768,7 @@ def main_account_screen():
     Button1.configure(text='''Forgot Password?''')
    
     Button2 = Button(canvas1,command=login_verify)
-    Button2.place(relx=0.195, rely=0.801, height=53, width=286)
+    Button2.place(relx=0.240, rely=0.801, height=70, width=400)
     Button2.configure(activebackground="#ffffff")
     Button2.configure(activeforeground="#000000")
     Button2.configure(background="#1a1a1a")
@@ -806,7 +786,7 @@ def main_account_screen():
     Button2.configure(text='''LOGIN''')
    
     Button2_8 = Button(canvas1,command=register)
-    Button2_8.place(relx=0.533, rely=0.801, height=53, width=276)
+    Button2_8.place(relx=0.558, rely=0.801, height=70, width=400)
     Button2_8.configure(activebackground="#ffffff")
     Button2_8.configure(activeforeground="#000000")
     Button2_8.configure(background="#1a1a1a")

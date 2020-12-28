@@ -240,11 +240,14 @@ def start_ml():
 			top= Tk()
     		#top = Toplevel1(root)
     		#final_screen_support.init(root, top)
-			top.geometry("1656x992+252+14")
+			
+			width_value=top.winfo_screenwidth()
+			height_value=top.winfo_screenheight()
+			top.geometry("%dx%d+0+0"%(width_value,height_value))
 			#top.minsize(120, 1)
 			top.maxsize(1924, 1061)
 			top.resizable(1, 1)
-			top.title("New Toplevel")
+			top.title("result")
 			top.configure(background="#002448")
 			
 			Frame1 = Frame(top)
