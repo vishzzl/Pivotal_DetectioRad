@@ -154,7 +154,7 @@ def heat_map(model,path):
 	
 	cam = cv2.applyColorMap(np.uint8(255*heatmap), cv2.COLORMAP_JET)
 	
-	output_image = cv2.addWeighted(cv2.cvtColor(img.astype('uint8'), cv2.COLOR_RGB2BGR), 1, cam,0.5, 0)
+	output_image = cv2.addWeighted(cv2.cvtColor(img.astype('uint8'), cv2.COLOR_RGB2BGR), 1, cam,0.4, 0)
 	img = Image.fromarray(output_image)
 	cv2.imwrite('detect.png',output_image)
 	img = img.resize((561, 552), Image.ANTIALIAS)
