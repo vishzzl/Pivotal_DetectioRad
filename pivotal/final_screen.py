@@ -41,9 +41,9 @@ def vp_start_gui():
     w = Toplevel (root)
     top = Toplevel1 (w)
     #final_screen_support.init(w, top, *args, **kwargs)
-    return (w, top)"""
+    return (w, top)
 
-"""def destroy_Toplevel1():
+def destroy_Toplevel1():
     global w
     w.destroy()
     w = None"""

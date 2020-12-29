@@ -46,7 +46,7 @@ def end_process():
 
 def get_model():
 	#model=load_model(covid19.model)	
-	model=tf.keras.models.load_model('covid19.model')
+	model=tf.keras.models.load_model('pivotal\covid19.model')
 	print(model.summary())
 	return model
 """
@@ -255,11 +255,11 @@ def start_ml():
 			Frame1.configure(relief='sunken')
 			Frame1.configure(borderwidth="2")
 			Frame1.configure(relief="sunken")
-			Frame1.configure(background="#c0c0c0")
+			Frame1.configure(background="#808080")
 			
 			
 			#photo_location = os.path.join(prog_location,"LOGO_v1.png")
-			img = Image.open(r"LOGO_v2.jpg")
+			img = Image.open(r"pivotal\LOGO_v2.jpg")
 			img = img.resize((240, 102), Image.ANTIALIAS)
 			
 			img0 = ImageTk.PhotoImage(img,master=Frame1)
@@ -274,8 +274,8 @@ def start_ml():
 			TSeparator1.configure(orient="vertical")
 			
 			Label2 = Label(Frame1)
-			Label2.place(relx=0.038, rely=0.022, height=65, width=258)
-			Label2.configure(background="#c0c0c0")
+			Label2.place(relx=0.038, rely=0.022, height=75, width=258)
+			Label2.configure(background="#808080")
 			Label2.configure(disabledforeground="#a3a3a3")
 			Label2.configure(font="font11")
 			Label2.configure(foreground="#000000")
@@ -320,7 +320,7 @@ def start_ml():
 			Button1.configure(text='''Save''')
 			
 			Label5_3 = Label(Frame1)
-			Label5_3.place(relx=0.088, rely=0.156, height=32, width=237)
+			Label5_3.place(relx=0.088, rely=0.156, height=32, width=233)
 			Label5_3.configure(activebackground="#f9f9f9")
 			Label5_3.configure(activeforeground="black")
 			Label5_3.configure(background="#ffffff")
@@ -331,7 +331,7 @@ def start_ml():
 			Label5_3.configure(text=ids)
 			
 			Label5_4 = Label(Frame1)
-			Label5_4.place(relx=0.088, rely=0.213, height=31, width=237)
+			Label5_4.place(relx=0.088, rely=0.213, height=31, width=233)
 			Label5_4.configure(activebackground="#f9f9f9")
 			Label5_4.configure(activeforeground="black")
 			Label5_4.configure(background="#ffffff")
@@ -342,7 +342,7 @@ def start_ml():
 			Label5_4.configure(text=name)
 			
 			Label5_5 = Label(Frame1)
-			Label5_5.place(relx=0.088, rely=0.267, height=31, width=237)
+			Label5_5.place(relx=0.088, rely=0.267, height=31, width=233)
 			Label5_5.configure(activebackground="#f9f9f9")
 			Label5_5.configure(activeforeground="black")
 			Label5_5.configure(background="#ffffff")
@@ -353,7 +353,7 @@ def start_ml():
 			Label5_5.configure(text=gender)
 			
 			Label5_5 = Label(Frame1)
-			Label5_5.place(relx=0.019, rely=0.427, height=92, width=339)
+			Label5_5.place(relx=0.019, rely=0.427, height=92, width=357)
 			Label5_5.configure(activebackground="#f9f9f9")
 			Label5_5.configure(activeforeground="black")
 			Label5_5.configure(background="#fdfdfd")
@@ -364,7 +364,7 @@ def start_ml():
 			Label5_5.configure(text=history)
 			
 			Label5_5 = Label(Frame1)
-			Label5_5.place(relx=0.088, rely=0.326, height=31, width=237)
+			Label5_5.place(relx=0.088, rely=0.326, height=31, width=233)
 			Label5_5.configure(activebackground="#f9f9f9")
 			Label5_5.configure(activeforeground="black")
 			Label5_5.configure(background="#ffffff")
@@ -386,11 +386,11 @@ def start_ml():
 			Label5.configure(text='''ID''')
 			
 			feedback_Entry = Text(Frame1)
-			feedback_Entry.place(relx=0.019, rely=0.607,height=150, relwidth=0.21)
+			feedback_Entry.place(relx=0.019, rely=0.607,height=150, relwidth=0.19)
 			feedback_Entry.insert(INSERT, feed)
 			
 			Label5_6 = Label(Frame1)
-			Label5_6.place(relx=0.019, rely=0.562, height=33, width=338)
+			Label5_6.place(relx=0.013, rely=0.562, height=33, width=370)
 			Label5_6.configure(activebackground="#f9f9f9")
 			Label5_6.configure(activeforeground="black")
 			Label5_6.configure(background="lightsalmon")
@@ -403,7 +403,7 @@ def start_ml():
 			Label5_6.configure(text='''Doctor Review''')
 			
 			Label5_7 = Label(Frame1)
-			Label5_7.place(relx=0.019, rely=0.831, height=33, width=328)
+			Label5_7.place(relx=0.013, rely=0.831, height=33, width=370)
 			Label5_7.configure(activebackground="#f9f9f9")
 			Label5_7.configure(activeforeground="black")
 			Label5_7.configure(background="lightsalmon")
@@ -458,7 +458,7 @@ def start_ml():
 			Label5_10.configure(text='''Age''')
 			
 			Label5_11 = Label(Frame1)
-			Label5_11.place(relx=0.019, rely=0.382, height=32, width=344)
+			Label5_11.place(relx=0.013, rely=0.382, height=32, width=370)
 			Label5_11.configure(activebackground="lightsalmon")
 			Label5_11.configure(activeforeground="black")
 			Label5_11.configure(background="lightsalmon")
@@ -500,7 +500,7 @@ def start_ml():
 			
 			Label2 = Label(Frame1)
 			Label2.place(relx=0.291, rely=0.155, height=27, width=84)
-			Label2.configure(background="#c0c0c0")
+			Label2.configure(background="#808080")
 			Label2.configure(disabledforeground="#a3a3a3")
 			Label2.configure(foreground="#000000")
 			Label2.configure(text='''highly infected''')
@@ -509,7 +509,7 @@ def start_ml():
 			Label2_5.place(relx=0.530, rely=0.155, height=27, width=114)
 			Label2_5.configure(activebackground="#f9f9f9")
 			Label2_5.configure(activeforeground="black")
-			Label2_5.configure(background="#c0c0c0")
+			Label2_5.configure(background="#808080")
 			Label2_5.configure(disabledforeground="#a3a3a3")
 			Label2_5.configure(foreground="#000000")
 			Label2_5.configure(highlightbackground="#d9d9d9")
@@ -520,7 +520,7 @@ def start_ml():
 			Label2_6.place(relx=0.850, rely=0.155, height=27, width=82)
 			Label2_6.configure(activebackground="#f9f9f9")
 			Label2_6.configure(activeforeground="black")
-			Label2_6.configure(background="#c0c0c0")
+			Label2_6.configure(background="#808080")
 			Label2_6.configure(disabledforeground="#a3a3a3")
 			Label2_6.configure(foreground="#000000")
 			Label2_6.configure(highlightbackground="#d9d9d9")
