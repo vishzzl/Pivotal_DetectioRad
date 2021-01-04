@@ -20,7 +20,9 @@ import os
 import sqlite3
 import tryy
 import pivotal_form
-
+from PIL import ImageTk , Image
+from tkinter import filedialog
+ 
 
 conn = sqlite3.connect("patients_pivotal_record.db")
 
@@ -30,8 +32,14 @@ conn.commit()
 
 
 
+
 def end_process():
 	os.remove(path)
+	
+	global sign_a
+
+	sign_a=StringVar()
+	
 	feedback1=feedback_Entry.get("1.0","end")
 	try:
 		s1.execute("UPDATE patients_records_pivotal SET feedback=? WHERE patient_id='"+get_regi+"'",([feedback1]))
@@ -39,8 +47,44 @@ def end_process():
 		print("done")
 	except sqlite3.Error as err:
 		print("task failed")
+	sign_a="="
+	print(sign_a)
+	load.loadBLOB(get_regi,sign_a)
 
-	load.loadBLOB(get_regi)
+def end_process_1():
+	os.remove(path)
+	
+	global sign_a
+
+	sign_a=StringVar()
+	
+	feedback1=feedback_Entry.get("1.0","end")
+	try:
+		s1.execute("UPDATE patients_records_pivotal SET feedback=? WHERE patient_id='"+get_regi+"'",([feedback1]))
+		conn.commit()
+		print("done")
+	except sqlite3.Error as err:
+		print("task failed")
+	sign_a="+"
+	print(sign_a)
+	load.loadBLOB(get_regi,sign_a)
+def end_process_2():
+	os.remove(path)
+	
+	global sign_a
+
+	sign_a=StringVar()
+	
+	feedback1=feedback_Entry.get("1.0","end")
+	try:
+		s1.execute("UPDATE patients_records_pivotal SET feedback=? WHERE patient_id='"+get_regi+"'",([feedback1]))
+		conn.commit()
+		print("done")
+	except sqlite3.Error as err:
+		print("task failed")
+	sign_a="-"
+	print(sign_a)
+	load.loadBLOB(get_regi,sign_a)
 
 
 
@@ -176,9 +220,11 @@ def heat_map(model,path):
 	
 	
 
-	
 
 
+
+global start_ml
+global reg_id
 
 
 
@@ -188,19 +234,28 @@ def start_ml():
 	global top
 	global get_regi 
 	global feedback_Entry
+
+	get_regi=StringVar()
+
 	
 	try:
 		get_regi= pivotal_form.get_reg.get()
+		print(get_regi,"byeee")
 		get_enamei=pivotal_form.get_ename.get()
 		pivotal_form.Entry1_reg.delete(0,END)
 		pivotal_form.name_ebox.delete(0,END)
 	except:
-		pivotal_form.filename=""
-		get_regi= pivotal_form.p_id
+		try:
+			pivotal_form.filename=""
+			get_regi= pivotal_form.p_id
+		except:
+			get_regi=reg_id
+			print("hello",get_regi)
 	
 	
 	
 	try:
+		
 		s1.execute("select * from patients_records_pivotal where patient_id='"+get_regi+"'")
 		record=s1.fetchall()
 		for row in record:
@@ -219,7 +274,7 @@ def start_ml():
 
 			
 
-		#print(record)
+		
 	except sqlite3.Error as err:
 		messagebox.showerror("ERROR","something went wrong")
 
@@ -306,7 +361,7 @@ def start_ml():
 			Label4_2.configure(text='''Heat Map''')
 			
 			Button1 = Button(Frame1,command=end_process)
-			Button1.place(relx=0.471, rely=0.921, height=44, width=457)
+			Button1.place(relx=0.350, rely=0.921, height=44, width=250)
 			Button1.configure(activebackground="#ececec")
 			Button1.configure(activeforeground="#000000")
 			Button1.configure(background="#437afc")
@@ -318,6 +373,37 @@ def start_ml():
 			Button1.configure(highlightcolor="black")
 			Button1.configure(pady="0")
 			Button1.configure(text='''Save''')
+
+
+			Button_n= Button(Frame1,command=end_process_2)
+			Button_n.place(relx=0.471, rely=0.921, height=44, width=250)
+			Button_n.configure(activebackground="#ececec")
+			Button_n.configure(activeforeground="#000000")
+			Button_n.configure(background="#437afc")
+			Button_n.configure(borderwidth="4")
+			Button_n.configure(disabledforeground="#a3a3a3")
+			Button_n.configure(font="font21")
+			Button_n.configure(foreground="#000000")
+			Button_n.configure(highlightbackground="#d9d9d9")
+			Button_n.configure(highlightcolor="black")
+			Button_n.configure(pady="0")
+			Button_n.configure(text='''Previous''')
+
+			ButtonP = Button(Frame1,command=end_process_1)
+			ButtonP.place(relx=0.600, rely=0.921, height=44, width=250)
+			ButtonP.configure(activebackground="#ececec")
+			ButtonP.configure(activeforeground="#000000")
+			ButtonP.configure(background="#437afc")
+			ButtonP.configure(borderwidth="4")
+			ButtonP.configure(disabledforeground="#a3a3a3")
+			ButtonP.configure(font="font21")
+			ButtonP.configure(foreground="#000000")
+			ButtonP.configure(highlightbackground="#d9d9d9")
+			ButtonP.configure(highlightcolor="black")
+			ButtonP.configure(pady="0")
+			ButtonP.configure(text='''Next''')
+			
+			
 			
 			Label5_3 = Label(Frame1)
 			Label5_3.place(relx=0.088, rely=0.156, height=32, width=233)
@@ -533,6 +619,7 @@ def start_ml():
 			
 			
 			global path
+
 	
 			path=tryy.readBLOB(get_regi)
 			print(path)
@@ -551,7 +638,233 @@ def start_ml():
 			
 	else:
 		messagebox.showerror("ERROR","registration id can not be empty")
+
+registration_list=[]
+global reg_id
+
+
+def back_command5():
+    
+    pivotal_form.form_page()
+    
+
+def list_formation():
+
+	global reg_id
 	
+	reg_id=StringVar()
+	print(registration_list)
+	reg_id=str(registration_list[0])
+	print(reg_id)
+	start_ml()
+
+def next_no(sign_a):
+	sign=sign_a
+	global reg_id
+	reg_id=get_regi
+	if sign=="+":
+		print(reg_id,"old")
+		elem=reg_id
+		reg_id=registration_list[registration_list.index(elem)+1]
+		print(reg_id,"new",registration_list.index(reg_id))
+		start_ml()
+	if sign=="-":
+		print(reg_id,"old")
+		elem=reg_id
+		reg_id=registration_list[registration_list.index(elem)-1]
+		print(reg_id,"new",registration_list.index(reg_id))
+		start_ml()
+	if sign == "=":
+			pass
+	
+
+	
+
+
+def multi_predict_screen():
+    pivotal_form.form_screen.destroy()
+    
+    global multi_screen
+    multi_screen= Tk()
+
+    width_value=multi_screen.winfo_screenwidth()
+    height_value=multi_screen.winfo_screenheight()
+    multi_screen.geometry("%dx%d+0+0"%(width_value,height_value))
+    #form_screen.minsize(w_x,w_y)
+    #register_screen.maxsize(1924, 1055)
+    multi_screen.resizable(0,0)
+    multi_screen.title("Multiple Prediction")
+    multi_screen.configure(background="#002448")
+
+    global get_reg
+    global get_ename
+    global name_ebox
+    global Entry1_reg
+    global get_reg_no
+    global count
+    global numberss
+	
+
+    
+    get_reg_no=StringVar()
+    get_reg= StringVar()
+    get_ename=StringVar()
+
+
+    numberss=1
+    
+    
+    
+    def addToList(event=None):
+        registration_id=name_ebox.get()
+        print(len(registration_list))
+        while len(registration_list) < int(numberss):
+            registration_list.append(registration_id)
+            name_ebox.delete(0,END)
+            name_box['text']="Enter Registration Id Of '"+str(len(registration_list)+1)+"'"
+            break
+        else:
+            print("list length over please press submit")
+           
+
+
+    
+    
+
+    '''This class configures and populates the toplevel window.
+     top is the toplevel containing window.'''
+    _bgcolor = '#c0c0c0'  # X11 color: 'gray85'
+    _fgcolor = '#000000'  # X11 color: 'black'
+    _compcolor = '#c0c0c0' # X11 color: 'gray85'
+    _ana1color = '#c0c0c0' # X11 color: 'gray85'
+    _ana2color = '#ececec' # Closest X11 color: 'gray92'
+    font11 = "-family {Segoe UI Emoji} -size 11 -weight bold"
+    font12 = "-family {Sitka Heading} -size 13 -weight bold"
+    font9 = "-family {Segoe UI Black} -size 14 -weight bold"
+   
+    
+   
+    Canvas1 = Canvas(multi_screen)
+    Canvas1.place(relx=0.072, rely=0.051, relheight=0.804 , relwidth=0.847)
+    Canvas1.configure(background="#808080")
+    Canvas1.configure(borderwidth="2")
+    Canvas1.configure(highlightbackground="#808080")
+    Canvas1.configure(highlightcolor="#646464646464")
+    Canvas1.configure(insertbackground="black")
+    Canvas1.configure(relief="raised")
+    Canvas1.configure(selectbackground="#808080")
+    Canvas1.configure(selectforeground="white")
+   
+    Label1 = Label(Canvas1)
+    Label1.place(relx=0.122, rely=0.063, height=36, width=1300)
+    Label1.configure(activebackground="#000071")
+    Label1.configure(activeforeground="white")
+    Label1.configure(activeforeground="#f0f0f0f0f0f0")
+    Label1.configure(background="#ababab")
+    Label1.configure(borderwidth="5")
+    Label1.configure(compound='center')
+    Label1.configure(disabledforeground="#000040")
+    Label1.configure(font=font9)
+    Label1.configure(foreground="#000040")
+    Label1.configure(highlightbackground="#808080")
+    Label1.configure(highlightcolor="#808080")
+    Label1.configure(text='''Fill Customer Details''')
+
+    registration = Label(Canvas1)
+    registration.place(relx=0.209, rely=0.24, height=40, width=250)    
+    registration.configure(background="#808080")
+    registration.configure(disabledforeground="#a3a3a3")
+    registration.configure(font=font9)
+    registration.configure(foreground="#000000")
+    registration.configure(text='''Enter number of registration.''')
+    
+    
+    def check_num(event=None):
+        global numberss
+        
+        numberss=get_reg_no.get()
+        print(numberss)
+    
+    #get_reg_no.set(1)
+    Entry1_reg = OptionMenu(Canvas1,get_reg_no,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
+    Entry1_reg.place(relx=0.428, rely=0.24,height=40, relwidth=0.317)
+    #Entry1_reg.configure(background="white")
+    Entry1_reg.configure(disabledforeground="#a3a3a3")
+    Entry1_reg.configure(font="TkFixedFont")
+    Entry1_reg.configure(foreground="#000000")
+    #Entry1_reg.configure(insertbackground="black")
+    #Entry1_reg.configure(textvariable="get_reg_no")
+    Entry1_reg.bind('<Button>',check_num)
+    
+    
+
+
+    
+    
+
+    name_box = Label(Canvas1)
+    name_box.place(relx=0.209, rely=0.412, height=40, width=250)
+    name_box.configure(background="#808080")
+    name_box.configure(disabledforeground="#a3a3a3")
+    name_box.configure(font=font9)
+    name_box.configure(foreground="#000000")
+    name_box.configure(text="Enter Registration Id Of 1st")
+        
+    name_ebox = Entry(Canvas1)
+    name_ebox.place(relx=0.428, rely=0.412,height=40, relwidth=0.317)
+    name_ebox.configure(background="white")
+    name_ebox.configure(disabledforeground="#a3a3a3")
+    name_ebox.configure(font="TkFixedFont")
+    name_ebox.configure(foreground="#000000")
+    name_ebox.configure(highlightbackground="#d9d9d9")
+    name_ebox.configure(highlightcolor="black")
+    name_ebox.configure(insertbackground="black")
+    name_ebox.configure(selectbackground="blue")
+    name_ebox.configure(selectforeground="white")
+    name_ebox.configure(textvariable=get_reg)
+
+    name_ebox.bind('<Return>',addToList)
+
+
+  
+    Button1 = Button(Canvas1,command=list_formation)
+    Button1.place(relx=0.385, rely=0.635, height=45, width=306)
+    Button1.configure(activebackground="#ececec")
+    Button1.configure(activeforeground="#000000")
+    Button1.configure(background="#092748")
+    Button1.configure(borderwidth="5")
+    Button1.configure(disabledforeground="#a3a3a3")
+    Button1.configure(font="-family {Segoe UI Black} -size 14 -weight bold -slant roman -underline 0 -overstrike 0")
+    Button1.configure(foreground="#ffffff")
+    Button1.configure(highlightbackground="#808080")
+    Button1.configure(highlightcolor="black")
+    Button1.configure(overrelief="raised")
+    Button1.configure(padx="5")
+    Button1.configure(pady="5")
+    Button1.configure(text='submit')
+
+    
+    Button2 = Button(multi_screen)
+    Button2.place(relx=0.0, rely=0.0, height=40, width=66)
+    Button2.configure(activebackground="#ececec")
+    Button2.configure(activeforeground="#000000")
+    Button2.configure(background="#808080")
+    Button2.configure(command=back_command5)
+    Button2.configure(disabledforeground="#a3a3a3")
+    Button2.configure(foreground="#000000")
+    Button2.configure(highlightbackground="#d9d9d9")
+    Button2.configure(highlightcolor="black")
+    Button2.configure(pady="0")
+    Button2.configure(relief="flat")
+    Button2.configure(text='''Back''')
+
+    multi_screen.mainloop()
+
+
+#multi_predict_screen()
+#print(registration_list)	
+
+
 
 
 

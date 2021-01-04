@@ -15,6 +15,7 @@ import mlf
 
 
 
+
 global form_page
 
 
@@ -552,8 +553,11 @@ def form_page():
         try:
             new_patients_screen.destroy()
         except:
-            viewlog.destroy()
-
+            try:
+                mlf.multi_screen.destroy()
+            except:
+                viewlog.destroy()
+        
         
     
     
@@ -654,6 +658,25 @@ def form_page():
     o_patients_1.configure(pady="5")
     o_patients_1.configure(text='''Existing patient''')
 
+
+    g_patients_1 = Button(Canvas1)
+    g_patients_1.place(relx=0.360, rely=0.720, height=65, width=400)
+    g_patients_1.configure(activebackground="#ececec")
+    g_patients_1.configure(activeforeground="#000000")
+    g_patients_1.configure(background="#092748")
+    g_patients_1.configure(borderwidth="5")
+    g_patients_1.configure(command=mlf.multi_predict_screen)
+    g_patients_1.configure(disabledforeground="#a3a3a3")
+    g_patients_1.configure(font="-family {Segoe UI Black} -size 14 -weight bold -slant roman -underline 0 -overstrike 0")
+    g_patients_1.configure(foreground="#ffffff")
+    g_patients_1.configure(highlightbackground="#808080")
+    g_patients_1.configure(highlightcolor="black")
+    g_patients_1.configure(overrelief="raised")
+    g_patients_1.configure(padx="5")
+    g_patients_1.configure(pady="5")
+    g_patients_1.configure(text='''Multiple Prediction''')
+
+
     Label3 = Label(Canvas1, text=doctorname)
     Label3.place(relx=0.041, rely=0.207, height=50, width=150)
     Label3.configure(background="#808080")
@@ -686,6 +709,5 @@ def form_page():
   
 
     form_screen.mainloop()
-
 
 
