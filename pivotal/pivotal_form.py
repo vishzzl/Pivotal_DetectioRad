@@ -33,7 +33,7 @@ def openfilename():
         
         #Logo_in=ImageTk.PhotoImage(Logo)
     except:
-        messagebox.showerror("ERROR","please upload image format .jpg or .png")
+        messagebox.showerror("ERROR","please upload image format .diacom")
         
 def convertToBinaryData(filename):
     #Convert digital data to binary format

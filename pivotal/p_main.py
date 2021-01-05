@@ -362,7 +362,7 @@ def register_user():
     else:
         messagebox.showerror("ERROR","PLEASE! Enter correct registration number")
 
-def login_verify():
+def login_verify(event=None):
     username1 = username_verify.get()
     password1 = password_verify.get()
 
@@ -658,7 +658,7 @@ def main_account_screen():
     #top.maxsize(1924, 1055)
     top.resizable(0,0)
     top.title("Login page")
-    top.configure(background="#002448")
+    top.configure(background="#002147")
     top.configure(highlightbackground="#d9d9d9")
     top.configure(highlightcolor="black")
 
@@ -784,6 +784,7 @@ def main_account_screen():
     Button2.configure(padx="5")
     Button2.configure(pady="5")
     Button2.configure(text='''LOGIN''')
+    Button2.bind('<Return>',login_verify)
    
     Button2_8 = Button(canvas1,command=register)
     Button2_8.place(relx=0.558, rely=0.801, height=70, width=400)

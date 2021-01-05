@@ -360,8 +360,8 @@ def start_ml():
 			Label4_2.configure(relief="groove")
 			Label4_2.configure(text='''Heat Map''')
 			
-			Button1 = Button(Frame1,command=end_process)
-			Button1.place(relx=0.350, rely=0.921, height=44, width=250)
+			Button1 = Button(Frame1,command=end_process_2)
+			Button1.place(relx=0.300, rely=0.921, height=44, width=250)
 			Button1.configure(activebackground="#ececec")
 			Button1.configure(activeforeground="#000000")
 			Button1.configure(background="#437afc")
@@ -372,11 +372,11 @@ def start_ml():
 			Button1.configure(highlightbackground="#d9d9d9")
 			Button1.configure(highlightcolor="black")
 			Button1.configure(pady="0")
-			Button1.configure(text='''Save''')
+			Button1.configure(text='''Previous''')
 
 
-			Button_n= Button(Frame1,command=end_process_2)
-			Button_n.place(relx=0.471, rely=0.921, height=44, width=250)
+			Button_n= Button(Frame1,command=end_process)
+			Button_n.place(relx=0.471, rely=0.921, height=44, width=457)
 			Button_n.configure(activebackground="#ececec")
 			Button_n.configure(activeforeground="#000000")
 			Button_n.configure(background="#437afc")
@@ -387,10 +387,10 @@ def start_ml():
 			Button_n.configure(highlightbackground="#d9d9d9")
 			Button_n.configure(highlightcolor="black")
 			Button_n.configure(pady="0")
-			Button_n.configure(text='''Previous''')
+			Button_n.configure(text='''Save''')
 
 			ButtonP = Button(Frame1,command=end_process_1)
-			ButtonP.place(relx=0.600, rely=0.921, height=44, width=250)
+			ButtonP.place(relx=0.750, rely=0.921, height=44, width=250)
 			ButtonP.configure(activebackground="#ececec")
 			ButtonP.configure(activeforeground="#000000")
 			ButtonP.configure(background="#437afc")
@@ -639,7 +639,7 @@ def start_ml():
 	else:
 		messagebox.showerror("ERROR","registration id can not be empty")
 
-registration_list=[]
+
 global reg_id
 
 
@@ -663,18 +663,26 @@ def next_no(sign_a):
 	global reg_id
 	reg_id=get_regi
 	if sign=="+":
-		print(reg_id,"old")
-		elem=reg_id
-		reg_id=registration_list[registration_list.index(elem)+1]
-		print(reg_id,"new",registration_list.index(reg_id))
-		start_ml()
-	if sign=="-":
-		print(reg_id,"old")
-		elem=reg_id
-		reg_id=registration_list[registration_list.index(elem)-1]
-		print(reg_id,"new",registration_list.index(reg_id))
-		start_ml()
-	if sign == "=":
+		try:
+			print(reg_id,"old")
+			elem=reg_id
+			reg_id=registration_list[registration_list.index(elem)+1]
+			print(reg_id,"new",registration_list.index(reg_id))
+			start_ml()
+		except:
+			messagebox.showerror("Completed","No more registration no.")
+			#add message
+	if sign  == "-" :
+		try:
+			print(reg_id,"old")
+			elem=reg_id
+			reg_id=registration_list[registration_list.index(elem)-1]
+			print(reg_id,"new",registration_list.index(reg_id))
+			start_ml()
+		except:
+			messagebox.showerror("Completed","No more registration no.")
+			#add message
+	else:
 			pass
 	
 
@@ -682,6 +690,8 @@ def next_no(sign_a):
 
 
 def multi_predict_screen():
+    global registration_list
+    registration_list=[]
     pivotal_form.form_screen.destroy()
     
     global multi_screen
@@ -721,10 +731,11 @@ def multi_predict_screen():
         while len(registration_list) < int(numberss):
             registration_list.append(registration_id)
             name_ebox.delete(0,END)
-            name_box['text']="Enter Registration Id Of '"+str(len(registration_list)+1)+"'"
+            name_box['text']="Enter Registration Id Of '"+str(len(registration_list))+"'"
             break
         else:
-            print("list length over please press submit")
+	        messagebox.showerror("Completed","No more registration no can be added, To add more please increase the batch size")
+            #message stop
            
 
 
@@ -771,7 +782,7 @@ def multi_predict_screen():
     Label1.configure(text='''Fill Customer Details''')
 
     registration = Label(Canvas1)
-    registration.place(relx=0.209, rely=0.24, height=40, width=250)    
+    registration.place(relx=0.150, rely=0.24, height=40, width=350)    
     registration.configure(background="#808080")
     registration.configure(disabledforeground="#a3a3a3")
     registration.configure(font=font9)
@@ -779,14 +790,14 @@ def multi_predict_screen():
     registration.configure(text='''Enter number of registration.''')
     
     
-    def check_num(event=None):
+    def check_num(event):
         global numberss
         
         numberss=get_reg_no.get()
         print(numberss)
     
-    #get_reg_no.set(1)
-    Entry1_reg = OptionMenu(Canvas1,get_reg_no,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
+    get_reg_no.set(1)
+    Entry1_reg = OptionMenu(Canvas1,get_reg_no,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,command=check_num)
     Entry1_reg.place(relx=0.428, rely=0.24,height=40, relwidth=0.317)
     #Entry1_reg.configure(background="white")
     Entry1_reg.configure(disabledforeground="#a3a3a3")
@@ -794,7 +805,8 @@ def multi_predict_screen():
     Entry1_reg.configure(foreground="#000000")
     #Entry1_reg.configure(insertbackground="black")
     #Entry1_reg.configure(textvariable="get_reg_no")
-    Entry1_reg.bind('<Button>',check_num)
+    #Entry1_reg.bind('<Configure>',check_num)
+    get_reg_no.trace("u",check_num)
     
     
 
@@ -803,12 +815,18 @@ def multi_predict_screen():
     
 
     name_box = Label(Canvas1)
-    name_box.place(relx=0.209, rely=0.412, height=40, width=250)
+    name_box.place(relx=0.150, rely=0.412, height=40, width=350)
     name_box.configure(background="#808080")
     name_box.configure(disabledforeground="#a3a3a3")
     name_box.configure(font=font9)
     name_box.configure(foreground="#000000")
     name_box.configure(text="Enter Registration Id Of 1st")
+	
+    name_box1 = Label(Canvas1)
+    name_box1.place(relx=0.428, rely=0.500, height=40, width=500)
+    name_box1.configure(background="#808080")
+    name_box1.configure(foreground="#000000")	
+    name_box1.configure(text="(Please press Enter to save data and Enter next)")
         
     name_ebox = Entry(Canvas1)
     name_ebox.place(relx=0.428, rely=0.412,height=40, relwidth=0.317)
