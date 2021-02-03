@@ -32,7 +32,7 @@ def path_return():
 def readBLOB(patient_idr):
     #photo="result"
     patient=patient_idr
-    s1.execute("SELECT * FROM patients_records_pivotal WHERE patient_id ='"+patient+"'")
+    s1.execute("SELECT * FROM patients_records_pivotalss WHERE patient_id ='"+patient+"'")
     record=s1.fetchall()
     for row in record:
         """ids = row[0]
@@ -55,7 +55,7 @@ def readBLOB(patient_idr):
     with open(addr, 'rb') as file:
         detected = file.read()
     try:
-        s1.execute("UPDATE  patients_records_pivotal SET new_xray='"+detected+"'WHERE patient_id='"+patient+"'")
+        s1.execute("UPDATE  patients_records_pivotalss SET new_xray='"+detected+"'WHERE patient_id='"+patient+"'")
         conn.commit()
         delete_img() 
     except sqlite3.Error as err:

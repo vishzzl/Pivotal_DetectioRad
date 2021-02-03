@@ -16,6 +16,8 @@ class splalsh_screen:
     start_root=Tk()
     start_root.config(bg="black")
     start_root.title("DetectioRad")
+    start_root.iconbitmap(r"pivotal\LOGO_v1.ico")
+
     Logo=Image.open(r"pivotal\LOGO_v1.png")
     global w_x
     global w_y

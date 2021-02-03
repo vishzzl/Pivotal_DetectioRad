@@ -35,12 +35,12 @@ def loadBLOB(patient_id,sign_a):
     with open(addr, 'rb') as file:
         detected = file.read()
     try:
-        s1.execute("UPDATE patients_records_pivotal SET new_xray=? WHERE patient_id='"+patient+"'",([detected]))
+        s1.execute("UPDATE patients_records_pivotalss SET new_xray=? WHERE patient_id='"+patient+"'",([detected]))
         conn.commit()
         messagebox.showinfo("SUCCESSFULL","data stored successfully")
         print("done")
         delete_img(sign)
 
     except sqlite3.Error as err:
-        print("task failed")
+        print("task failed",err)
     

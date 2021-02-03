@@ -22,6 +22,7 @@ import tryy
 import pivotal_form
 from PIL import ImageTk , Image
 from tkinter import filedialog
+import p_main
  
 
 conn = sqlite3.connect("patients_pivotal_record.db")
@@ -39,14 +40,16 @@ def end_process():
 	global sign_a
 
 	sign_a=StringVar()
-	
-	feedback1=feedback_Entry.get("1.0","end")
 	try:
-		s1.execute("UPDATE patients_records_pivotal SET feedback=? WHERE patient_id='"+get_regi+"'",([feedback1]))
+		feedback1=feedback_Entry.get("1.0","end")
+	except:
+		feedback1="please fill feedback"
+	try:
+		s1.execute("UPDATE patients_records_pivotalss SET feedback=? WHERE patient_id='"+get_regi+"'",([feedback1]))
 		conn.commit()
 		print("done")
 	except sqlite3.Error as err:
-		print("task failed")
+		print("task failed",err)
 	sign_a="="
 	print(sign_a)
 	load.loadBLOB(get_regi,sign_a)
@@ -57,12 +60,16 @@ def end_process_1():
 	global sign_a
 
 	sign_a=StringVar()
-	
-	feedback1=feedback_Entry.get("1.0","end")
 	try:
-		s1.execute("UPDATE patients_records_pivotal SET feedback=? WHERE patient_id='"+get_regi+"'",([feedback1]))
+		feedback1=feedback_Entry.get("1.0","end")
+	except:
+		feedback1="Please fill feedback"
+	
+	try:
+		s1.execute("UPDATE patients_records_pivotalss SET feedback=? WHERE patient_id='"+get_regi+"'",([feedback1]))
 		conn.commit()
 		print("done")
+		
 	except sqlite3.Error as err:
 		print("task failed")
 	sign_a="+"
@@ -74,12 +81,16 @@ def end_process_2():
 	global sign_a
 
 	sign_a=StringVar()
-	
-	feedback1=feedback_Entry.get("1.0","end")
 	try:
-		s1.execute("UPDATE patients_records_pivotal SET feedback=? WHERE patient_id='"+get_regi+"'",([feedback1]))
+		feedback1=feedback_Entry.get("1.0","end")
+	except:
+		feedback1 = "Please fill feedback"
+	
+	try:
+		s1.execute("UPDATE patients_records_pivotalss SET feedback=? WHERE patient_id='"+get_regi+"'",([feedback1]))
 		conn.commit()
 		print("done")
+	
 	except sqlite3.Error as err:
 		print("task failed")
 	sign_a="-"
@@ -156,7 +167,7 @@ def predict(path,model):
 		Label6.configure(font="font19")
 		Label6.configure(foreground="#000000")
 		Label6.configure(relief="ridge")
-		Label6.configure(text='''Normal''')
+		Label6.configure(text='''Negative''')
 		return
 		
 		
@@ -245,18 +256,24 @@ def start_ml():
 		pivotal_form.Entry1_reg.delete(0,END)
 		pivotal_form.name_ebox.delete(0,END)
 	except:
-		try:
-			pivotal_form.filename=""
-			get_regi= pivotal_form.p_id
-		except:
+		if pivotal_form.p_id == "":
 			get_regi=reg_id
 			print("hello",get_regi)
+		else:
+			pivotal_form.filename=""
+			get_regi= pivotal_form.p_id
+			pivotal_form.p_id=""
+
+			
+
+	
+			
 	
 	
 	
 	try:
 		
-		s1.execute("select * from patients_records_pivotal where patient_id='"+get_regi+"'")
+		s1.execute("select * from patients_records_pivotalss where patient_id='"+get_regi+"'")
 		record=s1.fetchall()
 		for row in record:
 			ids = row[0]
@@ -285,6 +302,10 @@ def start_ml():
 	if get_regi != "":
 		if not record:
 			messagebox.showerror("ERROR","wrong Id")
+			try:
+				next_no("+")
+			except:
+				pass
 		else:
 			global Frame1
 			
@@ -304,6 +325,7 @@ def start_ml():
 			top.resizable(1, 1)
 			top.title("result")
 			top.configure(background="#002448")
+			top.iconbitmap(r"pivotal\LOGO_v1.ico")
 			
 			Frame1 = Frame(top)
 			Frame1.place(relx=0.024, rely=0.04, relheight=0.897, relwidth=0.961)
@@ -471,9 +493,15 @@ def start_ml():
 			Label5.configure(state='active')
 			Label5.configure(text='''ID''')
 			
-			feedback_Entry = Text(Frame1)
-			feedback_Entry.place(relx=0.019, rely=0.607,height=150, relwidth=0.19)
-			feedback_Entry.insert(INSERT, feed)
+			if p_main.doctor_yorn== "y":
+				feedback_Entry = Text(Frame1)
+				feedback_Entry.place(relx=0.019, rely=0.607,height=150, relwidth=0.19)
+				feedback_Entry.insert(INSERT, feed)
+			else:
+				feedback_Entry=Label(Frame1)
+				feedback_Entry.place(relx=0.019, rely=0.607,height=150, relwidth=0.19)
+				feedback_Entry.configure(text="only Doctors can give feedback")
+
 			
 			Label5_6 = Label(Frame1)
 			Label5_6.place(relx=0.013, rely=0.562, height=33, width=370)
@@ -619,6 +647,7 @@ def start_ml():
 			
 			
 			global path
+			
 
 	
 			path=tryy.readBLOB(get_regi)
@@ -626,6 +655,7 @@ def start_ml():
 			model=get_model()
 			predict(path,model)
 			top.mainloop()
+			
 			
 			
 			
@@ -705,6 +735,7 @@ def multi_predict_screen():
     multi_screen.resizable(0,0)
     multi_screen.title("Multiple Prediction")
     multi_screen.configure(background="#002448")
+    multi_screen.iconbitmap(r"pivotal\LOGO_v1.ico")
 
     global get_reg
     global get_ename
@@ -731,7 +762,7 @@ def multi_predict_screen():
         while len(registration_list) < int(numberss):
             registration_list.append(registration_id)
             name_ebox.delete(0,END)
-            name_box['text']="Enter Registration Id Of '"+str(len(registration_list))+"'"
+            name_box['text']="Enter Registration Id Of '"+str(len(registration_list)+1)+"'"
             break
         else:
 	        messagebox.showerror("Completed","No more registration no can be added, To add more please increase the batch size")
@@ -765,9 +796,19 @@ def multi_predict_screen():
     Canvas1.configure(relief="raised")
     Canvas1.configure(selectbackground="#808080")
     Canvas1.configure(selectforeground="white")
+
+	
+    img = Image.open(r"pivotal\LOGO_v2.jpg")
+    img = img.resize((240, 102), Image.ANTIALIAS)
+			
+    img0 = ImageTk.PhotoImage(img,master=Canvas1)
+			
+    Label1=Label(Canvas1,image=img0)
+    Label1.image=img0
+    Label1.place(relx=0.842, rely=0.011, height=102, width=240)
    
     Label1 = Label(Canvas1)
-    Label1.place(relx=0.122, rely=0.063, height=36, width=1300)
+    Label1.place(relx=0.122, rely=0.140, height=36, width=1300)
     Label1.configure(activebackground="#000071")
     Label1.configure(activeforeground="white")
     Label1.configure(activeforeground="#f0f0f0f0f0f0")
@@ -779,14 +820,21 @@ def multi_predict_screen():
     Label1.configure(foreground="#000040")
     Label1.configure(highlightbackground="#808080")
     Label1.configure(highlightcolor="#808080")
-    Label1.configure(text='''Fill Customer Details''')
+    Label1.configure(text='''Fill Patient Details''')
+	
+    reg1_lable = Label(Canvas1)
+    reg1_lable.place(x=1450, y=810, height=30, width=100)
+    reg1_lable.configure(background="#808080")
+    reg1_lable.configure(text="7/7")
+    reg1_lable.configure(font="-family Arial -size 15 -weight bold -slant roman -underline 0 -overstrike 0")
+  
 
     registration = Label(Canvas1)
-    registration.place(relx=0.150, rely=0.24, height=40, width=350)    
+    registration.place(relx=0.150, rely=0.350, height=40, width=350)    
     registration.configure(background="#808080")
     registration.configure(disabledforeground="#a3a3a3")
-    registration.configure(font=font9)
-    registration.configure(foreground="#000000")
+    registration.configure(font="-family Arial -size 15 -weight bold -slant roman -underline 0 -overstrike 0")
+    registration.configure(foreground="#0A1172")
     registration.configure(text='''Enter number of registration.''')
     
     
@@ -798,7 +846,7 @@ def multi_predict_screen():
     
     get_reg_no.set(1)
     Entry1_reg = OptionMenu(Canvas1,get_reg_no,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,command=check_num)
-    Entry1_reg.place(relx=0.428, rely=0.24,height=40, relwidth=0.317)
+    Entry1_reg.place(relx=0.428, rely=0.350,height=40, relwidth=0.317)
     #Entry1_reg.configure(background="white")
     Entry1_reg.configure(disabledforeground="#a3a3a3")
     Entry1_reg.configure(font="TkFixedFont")
@@ -815,21 +863,21 @@ def multi_predict_screen():
     
 
     name_box = Label(Canvas1)
-    name_box.place(relx=0.150, rely=0.412, height=40, width=350)
+    name_box.place(relx=0.150, rely=0.462, height=40, width=350)
     name_box.configure(background="#808080")
     name_box.configure(disabledforeground="#a3a3a3")
-    name_box.configure(font=font9)
-    name_box.configure(foreground="#000000")
+    name_box.configure(font="-family Arial -size 15 -weight bold -slant roman -underline 0 -overstrike 0")
+    name_box.configure(foreground="#0A1172")
     name_box.configure(text="Enter Registration Id Of 1st")
 	
     name_box1 = Label(Canvas1)
-    name_box1.place(relx=0.428, rely=0.500, height=40, width=500)
+    name_box1.place(relx=0.428, rely=0.550, height=40, width=500)
     name_box1.configure(background="#808080")
     name_box1.configure(foreground="#000000")	
     name_box1.configure(text="(Please press Enter to save data and Enter next)")
         
     name_ebox = Entry(Canvas1)
-    name_ebox.place(relx=0.428, rely=0.412,height=40, relwidth=0.317)
+    name_ebox.place(relx=0.428, rely=0.462,height=40, relwidth=0.317)
     name_ebox.configure(background="white")
     name_ebox.configure(disabledforeground="#a3a3a3")
     name_ebox.configure(font="TkFixedFont")
@@ -846,14 +894,14 @@ def multi_predict_screen():
 
   
     Button1 = Button(Canvas1,command=list_formation)
-    Button1.place(relx=0.385, rely=0.635, height=45, width=306)
+    Button1.place(relx=0.385, rely=0.635, height=45, width=350)
     Button1.configure(activebackground="#ececec")
     Button1.configure(activeforeground="#000000")
     Button1.configure(background="#092748")
     Button1.configure(borderwidth="5")
     Button1.configure(disabledforeground="#a3a3a3")
-    Button1.configure(font="-family {Segoe UI Black} -size 14 -weight bold -slant roman -underline 0 -overstrike 0")
-    Button1.configure(foreground="#ffffff")
+    Button1.configure(font="-family {Segoe UI Black} -size 17 -weight bold -slant roman -underline 0 -overstrike 0")
+    Button1.configure(foreground="#0492C2")
     Button1.configure(highlightbackground="#808080")
     Button1.configure(highlightcolor="black")
     Button1.configure(overrelief="raised")
